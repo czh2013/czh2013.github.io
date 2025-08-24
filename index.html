@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技软件中心 | CZH软件库</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2') fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 35px;
+            transition: opacity 0.3s;
+        }
+
+        .nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* 软件元素覆盖 */
+        .software-global-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .software-global-overlay::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: url('https://cdn-icons-png.flaticon.com/512/226/226777.png') no-repeat;
+            background-size: contain;
+            top: 30%;
+            left: 10%;
+        }
+
+        .software-global-overlay::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: url('https://www.freeiconspng.com/uploads/c--logo-icon-0.png') no-repeat;
+            background-size: contain;
+            top: 50%;
+            right: 15%;
+        }
+
+        /* 内容容器 */
+        .container {
+            padding: 150px 8% 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 分类筛选器 */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        /* 软件卡片 */
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .software-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .software-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+
+        .software-type {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .type-website {
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        .type-software {
+            background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
+        }
+
+        .software-icon img {
+            width: 50px;
+            filter: brightness(0) invert(1);
+        }
+
+        .software-title {
+            color: white;
+            margin: 15px 0;
+        }
+
+        .software-description {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 下载按钮 */
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        /* 开发者声明页面 */
+        #developers {
+            display: none;
+            padding: 150px 8% 50px;
+        }
+
+        .disclaimer-box {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .disclaimer-box i {
+            font-size: 40px;
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        .disclaimer-box p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 15px 5%; }
+            .nav a { margin-left: 15px; }
+            .container, #developers { padding: 120px 5% 30px; }
+            .category-filter { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="software-global-overlay"></div>
+
+    <header class="header">
+        <div class="logo">CZH软件库</div>
+        <nav class="nav">
+            <a href="#home">首页</a>
+            <a href="#developers">开发者</a>
+        </nav>
+    </header>
+
+    <!-- 首页内容 -->
+    <div class="container" id="home">
+        <!-- 分类筛选器 -->
+        <div class="category-filter">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="website">网站</button>
+            <button class="filter-btn" data-filter="software">软件</button>
+        </div>
+        
+        <div class="software-grid">
+            <!-- 百度卡片 - 网站 -->
+            <div class="software-card" data-type="website">
+                <span class="software-type type-website">网站</span>
+                <div class="software-icon">
+                    <img src="https://s1.aigei.com/src/img/png/b6/b6383b6c90cf4e07863998bdfb1b890a.png?imageMogr2/auto-orient/thumbnail/!132x132r/gravity/Center/crop/132x132/quality/85/%7CimageView2/2/w/132&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:t2Gkvppu0eyfYrj9VFTLNHtCp4M=">
+                </div>
+                <h3 class="software-title">百度搜索</h3>
+                <p class="software-description">全球领先的中文搜索引擎，快速获取网络信息</p>
+                <a href="https://www.baidu.com" target="_blank" class="download-btn">
+                    立即访问
+                    <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
+                </a>
+            </div>
+
+            <!-- Python卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://cdn.worldvectorlogo.com/logos/python-5.svg">
+                </div>
+                <h3 class="software-title">Python 3.11</h3>
+                <p class="software-description">高级编程语言，人工智能开发首选工具</p>
+                <a href="https://www.python.org/" class="download-btn">立即下载</a>
+            </div>
+
+            <!-- 123云盘下载器卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=4716&format=png&color=000000">
+                </div>
+                <h3 class="software-title">123云盘下载器(Python版)</h3>
+                <p class="software-description">更高效，更快速的帮助下载文件</p>
+                <a href="https://wwye.lanzouu.com/b00zxxz9eb" class="download-btn">蓝奏云网盘下载(密码:5cgn)</a>
+            </div>
+
+            <!-- Office Tool Plus卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=37619&format=png&color=000000">
+                </div>
+                <h3 class="software-title">Office Tool Plus</h3>
+                <p class="software-description">便捷安装Office</p>
+                <a href="https://otp.landian.vip/zh-cn/download.html" class="download-btn">立即下载</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 开发者页面 -->
+    <section id="developers">
+        <div class="disclaimer-box">
+            <i class="fas fa-info-circle"></i>
+            <p>本作者意图是帮助软件下载，网站快速前往，没有其他意图</p>
+        </div>
+    </section>
+
+    <script>
+        // 页面切换功能
+        document.querySelectorAll('.nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('href').substring(1);
+                
+                // 隐藏所有页面
+                document.querySelectorAll('.container, section[id]').forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                // 显示目标页面
+                if(pageId === 'home') {
+                    document.getElementById('home').style.display = 'block';
+                } else {
+                    document.getElementById(pageId).style.display = 'block';
+                }
+            });
+        });
+
+        // 分类筛选功能
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有按钮的active类
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // 给当前点击的按钮添加active类
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                const cards = document.querySelectorAll('.software-card');
+                
+                cards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        if (card.getAttribute('data-type') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
