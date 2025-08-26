@@ -288,7 +288,7 @@
             animation: bubbleRise 2s ease-in-out forwards;
         }
 
-        /* 冒泡总次数样式 */
+        /* 贡献总次数样式 */
         .total-bubbles {
             color: #4facfe;
             font-weight: bold;
@@ -379,6 +379,17 @@
                 <a href="https://wwye.lanzouu.com/b00zxxz9eb" class="download-btn">蓝奏云网盘下载(密码:5cgn)</a>
             </div>
 
+              <!-- 网盘解析工具1.3.7卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://youke1.picui.cn/s1/2025/08/26/68ad8d1bc3c2c.png">
+                </div>
+                <h3 class="software-title">网盘解析工具1.3.7</h3>
+                <p class="software-description">多线程，无限制的下载网盘文件</p>
+                <a href="https://gitee.com/lkksnbb/netdisk-prase/releases/download/1.3.7/网盘解析工具-v1.3.7-amd64-installer.exe" class="download-btn">立即下载</a>
+            </div>
+
             <!-- Office Tool Plus卡片 - 软件 -->
             <div class="software-card" data-type="software">
                 <span class="software-type type-software">软件</span>
@@ -389,15 +400,27 @@
                 <p class="software-description">便捷安装Office</p>
                 <a href="https://otp.landian.vip/zh-cn/download.html" class="download-btn">立即下载</a>
             </div>
+
+            <!-- IDM下载器卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=Do6ZUCApJmfl&format=png&color=000000">
+                </div>
+                <h3 class="software-title">IDM下载器</h3>
+                <p class="software-description">用8倍速度下载文件</p>
+                <a href="https://www.internetdownloadmanager.com" class="download-btn">官网下载安装包</a>
+                <a href="https://wwye.lanzouu.com/b00zy0c5be" class="download-btn">下载激活工具(密码:999h)</a>
+            </div>
         </div>
     </div>
 
     <!-- 其他页面 -->
     <section id="other">
         <div class="bubble-container">
-            <h2><i class="fas fa-bubbles"></i> 冒泡游戏</h2>
+            <h2><i class="fas fa-bubbles"></i> 贡献值</h2>
             <div class="bubble-count" id="bubbleCount">0</div>
-            <button class="bubble-btn" id="bubbleBtn">点我冒泡 <i class="fas fa-plus"></i></button>
+            <button class="bubble-btn" id="bubbleBtn">点我贡献 <i class="fas fa-plus"></i></button>
             <div class="bubble-message" id="bubbleMessage"></div>
         </div>
     </section>
@@ -415,7 +438,7 @@
     <div class="site-info">
         <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
         <div>用户访问次数: <span id="visitCount">0</span></div>
-        <div>网站冒泡总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
+        <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
         <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
     </div>
 
@@ -474,7 +497,7 @@
         localStorage.setItem('visitCount', visitCount);
         document.getElementById('visitCount').textContent = visitCount;
         
-        // 冒泡功能
+        // 贡献功能
         let bubbleCount = 0;
         let todayBubbles = 0;
         
@@ -483,10 +506,10 @@
         const currentDate = new Date().toDateString();
         
         if (lastBubbleDate === currentDate) {
-            // 如果是同一天，读取之前的冒泡次数
+            // 如果是同一天，读取之前的贡献次数
             todayBubbles = parseInt(localStorage.getItem('todayBubbles')) || 0;
         } else {
-            // 如果是新的一天，重置冒泡次数
+            // 如果是新的一天，重置贡献次数
             todayBubbles = 0;
             localStorage.setItem('lastBubbleDate', currentDate);
             localStorage.setItem('todayBubbles', todayBubbles);
@@ -505,20 +528,20 @@
                 bubble.remove();
             }, 2000);
             
-            // 更新冒泡计数
+            // 更新贡献次计数
             todayBubbles++;
             bubbleCount++;
             
             // 更新显示
             document.getElementById('bubbleCount').textContent = todayBubbles;
-            document.getElementById('bubbleMessage').textContent = `今日冒了 ${todayBubbles} 个泡泡！`;
+            document.getElementById('bubbleMessage').textContent = `今日贡献了 ${todayBubbles} 次！`;
             
             // 保存到本地存储
             localStorage.setItem('todayBubbles', todayBubbles);
             localStorage.setItem('totalBubbles', bubbleCount);
         });
 
-        // 网站冒泡总次数功能
+        // 网站贡献总次数功能
         let totalBubbleCount = 245; // 初始值
         const startTime = new Date('2025-08-24T09:00:00'); // 网站开始运营时间
         
@@ -547,7 +570,7 @@
             return total;
         }
         
-        // 更新总冒泡次数显示
+        // 更新总贡献次数显示
         function updateTotalBubbles() {
             totalBubbleCount = calculateTotalBubbles();
             document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
@@ -577,7 +600,7 @@
             
             // 显示更新通知
             const notification = document.createElement('div');
-            notification.textContent = `网站冒泡总次数增加了 ${randomIncrement}！`;
+            notification.textContent = `网站贡献总次数增加了 ${randomIncrement}！`;
             notification.style.position = 'fixed';
             notification.style.bottom = '80px';
             notification.style.right = '20px';
