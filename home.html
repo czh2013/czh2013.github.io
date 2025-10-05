@@ -185,35 +185,6 @@
             transition: opacity 0.3s;
         }
 
-        /* 开发者声明页面 */
-        #developer {
-            display: none;
-            padding: 150px 8% 50px;
-        }
-
-        .disclaimer-box {
-            max-width: 800px;
-            margin: 100px auto;
-            padding: 30px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.2);
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .disclaimer-box i {
-            font-size: 40px;
-            color: #4facfe;
-            margin-bottom: 20px;
-        }
-
-        .disclaimer-box p {
-            font-size: 18px;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.9);
-        }
-
         /* 网站信息显示 */
         .site-info {
             position: fixed;
@@ -229,65 +200,6 @@
             z-index: 10;
         }
 
-        /* 其他页面样式 */
-        #other {
-            display: none;
-            padding: 150px 8% 50px;
-            text-align: center;
-        }
-
-        .bubble-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .bubble-count {
-            font-size: 80px;
-            margin: 30px 0;
-            color: #4facfe;
-            text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
-        }
-
-        .bubble-btn {
-            padding: 15px 40px;
-            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .bubble-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
-        }
-
-        .bubble-message {
-            margin-top: 20px;
-            font-size: 18px;
-            color: rgba(255,255,255,0.8);
-            min-height: 30px;
-        }
-
-        .bubble-animation {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: rgba(79, 172, 254, 0.7);
-            border-radius: 50%;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bubbleRise 2s ease-in-out forwards;
-        }
-
         /* 贡献总次数样式 */
         .total-bubbles {
             color: #4facfe;
@@ -301,21 +213,10 @@
             margin-top: 5px;
         }
 
-        @keyframes bubbleRise {
-            0% {
-                transform: translate(-50%, 0);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -300px);
-                opacity: 0;
-            }
-        }
-
         @media (max-width: 768px) {
             .header { padding: 15px 5%; }
             .nav a { margin-left: 15px; }
-            .container, #developer, #other { padding: 120px 5% 30px; }
+            .container { padding: 120px 5% 30px; }
             .category-filter { flex-wrap: wrap; }
             .site-info { font-size: 12px; padding: 10px; }
         }
@@ -327,9 +228,10 @@
     <header class="header">
         <div class="logo">CZH综合科技</div>
         <nav class="nav">
-            <a href="https://czh2013.github.io/home.html">首页</a>
-            <a href="https://czh2013.github.io/other.html">其他</a>
-            <a href="https://czh2013.github.io/developer.html">开发者</a>
+            <!-- 修改为相对路径，指向独立的HTML文件 -->
+            <a href="home.html">首页</a>
+            <a href="other.html">其他</a>
+            <a href="developer.html">开发者</a>
         </nav>
     </header>
 
@@ -371,7 +273,6 @@
                 </a>
             </div>
 
-
             <!-- 谷歌搜索卡片 - 网站 -->
             <div class="software-card" data-type="website">
                 <span class="software-type type-website">网站</span>
@@ -410,7 +311,7 @@
                 <a href="https://wwye.lanzouu.com/b00zxxz9eb" target="_blank" class="download-btn">蓝奏云网盘下载(密码:5cgn)</a>
             </div>
 
-              <!-- 网盘解析工具1.3.7卡片 - 软件 -->
+            <!-- 网盘解析工具1.3.7卡片 - 软件 -->
             <div class="software-card" data-type="software">
                 <span class="software-type type-software">软件</span>
                 <div class="software-icon">
@@ -457,25 +358,6 @@
         </div>
     </div>
 
-    <!-- 其他页面 -->
-    <section id="other">
-        <div class="bubble-container">
-            <h2><i class="fas fa-bubbles"></i> 贡献值</h2>
-            <div class="bubble-count" id="bubbleCount">0</div>
-            <button class="bubble-btn" id="bubbleBtn">点我贡献 <i class="fas fa-plus"></i></button>
-            <div class="bubble-message" id="bubbleMessage"></div>
-        </div>
-    </section>
-
-    <!-- 开发者页面 -->
-    <section id="developer">
-        <div class="disclaimer-box">
-            <i class="fas fa-info-circle"></i>
-            <p>本作者意图是帮助软件下载，网站快速前往，没有其他意图</p>
-            <a href="https://cn.anotepad.com/note/read/3fhekf49" target="_blank" class="download-btn">联系邮箱</a>
-        </div>
-    </section>
-
     <!-- 网站信息 -->
     <div class="site-info">
         <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
@@ -485,26 +367,6 @@
     </div>
 
     <script>
-        // 页面切换功能
-        document.querySelectorAll('.nav a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const pageId = link.getAttribute('href').substring(1);
-                
-                // 隐藏所有页面
-                document.querySelectorAll('.container, section[id]').forEach(page => {
-                    page.style.display = 'none';
-                });
-                
-                // 显示目标页面
-                if(pageId === 'home') {
-                    document.getElementById('home').style.display = 'block';
-                } else {
-                    document.getElementById(pageId).style.display = 'block';
-                }
-            });
-        });
-
         // 分类筛选功能
         document.querySelectorAll('.filter-btn').forEach(button => {
             button.addEventListener('click', () => {
@@ -538,86 +400,34 @@
         visitCount++;
         localStorage.setItem('visitCount', visitCount);
         document.getElementById('visitCount').textContent = visitCount;
-        
-        // 贡献功能
-        let bubbleCount = 0;
-        let todayBubbles = 0;
-        
-        // 检查是否是同一天
-        const lastBubbleDate = localStorage.getItem('lastBubbleDate');
-        const currentDate = new Date().toDateString();
-        
-        if (lastBubbleDate === currentDate) {
-            // 如果是同一天，读取之前的贡献次数
-            todayBubbles = parseInt(localStorage.getItem('todayBubbles')) || 0;
-        } else {
-            // 如果是新的一天，重置贡献次数
-            todayBubbles = 0;
-            localStorage.setItem('lastBubbleDate', currentDate);
-            localStorage.setItem('todayBubbles', todayBubbles);
-        }
-        
-        document.getElementById('bubbleCount').textContent = todayBubbles;
-        
-        document.getElementById('bubbleBtn').addEventListener('click', function() {
-            // 创建气泡动画
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble-animation';
-            document.getElementById('other').appendChild(bubble);
-            
-            // 移除动画元素
-            setTimeout(() => {
-                bubble.remove();
-            }, 2000);
-            
-            // 更新贡献次计数
-            todayBubbles++;
-            bubbleCount++;
-            
-            // 更新显示
-            document.getElementById('bubbleCount').textContent = todayBubbles;
-            document.getElementById('bubbleMessage').textContent = `今日贡献了 ${todayBubbles} 次！`;
-            
-            // 保存到本地存储
-            localStorage.setItem('todayBubbles', todayBubbles);
-            localStorage.setItem('totalBubbles', bubbleCount);
-        });
 
         // 网站贡献总次数功能
-        let totalBubbleCount = 245; // 初始值
-        const startTime = new Date('2025-08-24T09:00:00'); // 网站开始运营时间
+        let totalBubbleCount = 245;
+        const startTime = new Date('2025-08-24T09:00:00');
         
-        // 计算从开始时间到现在的总分钟数
         function getTotalMinutes() {
             const now = new Date();
             return Math.floor((now - startTime) / (1000 * 60));
         }
         
-        // 计算应该增加的次数
         function calculateTotalBubbles() {
             const totalMinutes = getTotalMinutes();
-            const intervals = Math.floor(totalMinutes / 15); // 每15分钟一个间隔
-            
-            // 为每个间隔生成一个确定的随机数
-            let total = 245; // 初始值
+            const intervals = Math.floor(totalMinutes / 15);
+            let total = 245;
             
             for (let i = 0; i < intervals; i++) {
-                // 使用确定的伪随机数生成算法
-                // 使用间隔索引作为种子，确保每个间隔的随机数相同
                 const random = ((i * 9301 + 49297) % 233280) / 233280;
-                const increment = Math.floor(random * 71) + 20; // 20-90的随机数
+                const increment = Math.floor(random * 71) + 20;
                 total += increment;
             }
             
             return total;
         }
         
-        // 更新总贡献次数显示
         function updateTotalBubbles() {
             totalBubbleCount = calculateTotalBubbles();
             document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
             
-            // 计算下次更新时间
             const totalMinutes = getTotalMinutes();
             const minutesSinceLastUpdate = totalMinutes % 15;
             const minutesUntilNextUpdate = 15 - minutesSinceLastUpdate;
@@ -625,22 +435,15 @@
             document.getElementById('nextUpdate').textContent = `下次更新: ${minutesUntilNextUpdate}分钟后`;
         }
         
-        // 初始更新
         updateTotalBubbles();
-        
-        // 每分钟更新一次显示
         setInterval(updateTotalBubbles, 60 * 1000);
         
-        // 每15分钟增加一次随机数（只是视觉效果，实际计算是确定的）
         setInterval(() => {
-            // 生成随机增加数
             const randomIncrement = Math.floor(Math.random() * 71) + 20;
             totalBubbleCount += randomIncrement;
             
-            // 更新显示
             document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
             
-            // 显示更新通知
             const notification = document.createElement('div');
             notification.textContent = `网站贡献总次数增加了 ${randomIncrement}！`;
             notification.style.position = 'fixed';
@@ -654,32 +457,26 @@
             notification.style.fontSize = '14px';
             document.body.appendChild(notification);
             
-            // 3秒后移除通知
             setTimeout(() => {
                 notification.remove();
             }, 3000);
-        }, 15 * 60 * 1000); // 15分钟
+        }, 15 * 60 * 1000);
 
-        // 计算并显示运营时间的详细格式
         function calculateUptimeDetail() {
             const startDate = new Date('2025-08-24T09:00:00');
             const now = new Date();
             
-            // 计算时间差（毫秒）
             let diff = now - startDate;
             
-            // 计算年、月、日、时、分、秒
             const seconds = Math.floor(diff / 1000) % 60;
             const minutes = Math.floor(diff / (1000 * 60)) % 60;
             const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             
-            // 计算年和月（近似值，不考虑闰年和月份天数差异）
             const years = Math.floor(days / 365);
             const months = Math.floor((days % 365) / 30);
             const remainingDays = days % 365 % 30;
             
-            // 构建时间字符串
             let timeString = '';
             
             if (years > 0) {
@@ -691,14 +488,10 @@
             
             timeString += `${remainingDays}天${hours}时${minutes}分${seconds}秒`;
             
-            // 更新显示
             document.getElementById('uptimeDetail').textContent = timeString;
         }
         
-        // 初始计算
         calculateUptimeDetail();
-        
-        // 每秒更新一次
         setInterval(calculateUptimeDetail, 1000);
     </script>
 </body>
