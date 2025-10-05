@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发者 | CZH综合科技</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2') fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 35px;
+            transition: opacity 0.3s;
+        }
+
+        .nav a:hover {
+            opacity: 0.8;
+        }
+
+        .container {
+            padding: 150px 8% 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 200px);
+        }
+
+        .disclaimer-box {
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .disclaimer-box i {
+            font-size: 50px;
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        .disclaimer-box h2 {
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .disclaimer-box p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-size: 16px;
+        }
+
+        .download-btn:hover {
+            opacity: 0.9;
+        }
+
+        .site-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: right;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 10;
+        }
+
+        .total-bubbles {
+            color: #4facfe;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .next-update {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 15px 5%; }
+            .nav a { margin-left: 15px; }
+            .container { padding: 120px 5% 30px; }
+            .site-info { font-size: 12px; padding: 10px; }
+            .disclaimer-box { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">CZH综合科技</div>
+        <nav class="nav">
+            <a href="home.html">首页</a>
+            <a href="other.html">其他</a>
+            <a href="developer.html">开发者</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="disclaimer-box">
+            <i class="fas fa-info-circle"></i>
+            <h1>关于开发者</h1>
+            <p>本作者意图是帮助软件下载，网站快速前往，没有其他意图</p>
+            <a href="https://cn.anotepad.com/note/read/3fhekf49" target="_blank" class="download-btn">
+                联系邮箱
+                <i class="fas fa-envelope" style="margin-left: 8px;"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="site-info">
+        <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
+        <div>用户访问次数: <span id="visitCount">0</span></div>
+        <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
+        <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
+    </div>
+
+    <script>
+        // 初始化访问次数
+        let visitCount = localStorage.getItem('visitCount') || 0;
+        visitCount++;
+        localStorage.setItem('visitCount', visitCount);
+        document.getElementById('visitCount').textContent = visitCount;
+
+        // 网站贡献总次数功能
+        let totalBubbleCount = 245;
+        const startTime = new Date('2025-08-24T09:00:00');
+        
+        function getTotalMinutes() {
+            const now = new Date();
+            return Math.floor((now - startTime) / (1000 * 60));
+        }
+        
+        function calculateTotalBubbles() {
+            const totalMinutes = getTotalMinutes();
+            const intervals = Math.floor(totalMinutes / 15);
+            let total = 245;
+            
+            for (let i = 0; i < intervals; i++) {
+                const random = ((i * 9301 + 49297) % 233280) / 233280;
+                const increment = Math.floor(random * 71) + 20;
+                total += increment;
+            }
+            
+            return total;
+        }
+        
+        function updateTotalBubbles() {
+            totalBubbleCount = calculateTotalBubbles();
+            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
+            
+            const totalMinutes = getTotalMinutes();
+            const minutesSinceLastUpdate = totalMinutes % 15;
+            const minutesUntilNextUpdate = 15 - minutesSinceLastUpdate;
+            
+            document.getElementById('nextUpdate').textContent = `下次更新: ${minutesUntilNextUpdate}分钟后`;
+        }
+        
+        updateTotalBubbles();
+        setInterval(updateTotalBubbles, 60 * 1000);
+
+        function calculateUptimeDetail() {
+            const startDate = new Date('2025-08-24T09:00:00');
+            const now = new Date();
+            
+            let diff = now - startDate;
+            
+            const seconds = Math.floor(diff / 1000) % 60;
+            const minutes = Math.floor(diff / (1000 * 60)) % 60;
+            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            const years = Math.floor(days / 365);
+            const months = Math.floor((days % 365) / 30);
+            const remainingDays = days % 365 % 30;
+            
+            let timeString = '';
+            
+            if (years > 0) {
+                timeString += `${years}年`;
+            }
+            if (months > 0 || years > 0) {
+                timeString += `${months}月`;
+            }
+            
+            timeString += `${remainingDays}天${hours}时${minutes}分${seconds}秒`;
+            
+            document.getElementById('uptimeDetail').textContent = timeString;
+        }
+        
+        calculateUptimeDetail();
+        setInterval(calculateUptimeDetail, 1000);
+    </script>
+</body>
+</html>
