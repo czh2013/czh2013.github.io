@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 - CZH综合科技</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2') fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .error-container {
+            max-width: 600px;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #4facfe;
+            text-shadow: 0 0 30px rgba(79, 172, 254, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .error-message {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .error-details {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .search-box {
+            margin: 30px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .suggestions {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .suggestion-title {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .suggestion-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .suggestion-link {
+            color: #4facfe;
+            text-decoration: none;
+            padding: 5px 0;
+            transition: opacity 0.3s;
+        }
+
+        .suggestion-link:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .error-code { font-size: 80px; }
+            .error-title { font-size: 24px; }
+            .action-buttons { flex-direction: column; }
+            .error-container { margin: 20px; padding: 30px 20px; }
+        }
+
+        /* 动画效果 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code floating">404</div>
+        <h1 class="error-title">页面未找到</h1>
+        
+        <p class="error-message">
+            抱歉，您访问的页面不存在或已被移动。
+        </p>
+
+        <div class="error-details" id="errorDetails">
+            <!-- JavaScript会在这里显示错误URL -->
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="在全站搜索内容..." id="searchInput">
+            <button class="btn" onclick="handleSearch()">
+                <i class="fas fa-search"></i> 搜索
+            </button>
+        </div>
+
+        <!-- 建议链接 -->
+        <div class="suggestions">
+            <div class="suggestion-title">你可能想访问：</div>
+            <div class="suggestion-links">
+                <a href="home.html" class="suggestion-link">🏠 返回首页</a>
+                <a href="other.html" class="suggestion-link">💡 贡献值页面</a>
+                <a href="developer.html" class="suggestion-link">👨‍💻 开发者页面</a>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="home.html" class="btn">
+                <i class="fas fa-home"></i> 返回首页
+            </a>
+            <button class="btn btn-secondary" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i> 返回上页
+            </button>
+            <a href="https://czh2013.github.io" class="btn btn-secondary">
+                <i class="fas fa-sync"></i> 重新加载
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 显示当前访问的错误URL
+        document.getElementById('errorDetails').textContent = 
+            '访问的URL: ' + window.location.href;
+
+        // 搜索功能
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                // 简单的站内搜索 - 跳转到首页并高亮相关内容
+                window.location.href = `home.html?search=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // 回车键搜索
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+
+        // 自动聚焦到搜索框
+        document.getElementById('searchInput').focus();
+
+        // 记录404错误（可选）
+        console.log('404 Error - Page not found:', window.location.href);
+
+        // 如果是搜索引擎爬虫，提供结构化数据
+        if (navigator.userAgent.includes('Googlebot') || 
+            navigator.userAgent.includes('Bingbot') ||
+            navigator.userAgent.includes('Slurp')) {
+            
+            // 添加结构化数据帮助搜索引擎理解这是404页面
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "ErrorPage",
+                "name": "404 Page Not Found",
+                "description": "The requested page was not found on this server.",
+                "url": window.location.href,
+                "mainEntity": {
+                    "@type": "WebPage",
+                    "url": "https://czh2013.github.io/home.html"
+                }
+            };
+            
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.textContent = JSON.stringify(structuredData);
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
+</html>
