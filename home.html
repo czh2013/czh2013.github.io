@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>综合科技中心 | CZH综合科技</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2') fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 35px;
+            transition: opacity 0.3s;
+        }
+
+        .nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* 软件元素覆盖 */
+        .software-global-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .software-global-overlay::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: url('https://cdn-icons-png.flaticon.com/512/226/226777.png') no-repeat;
+            background-size: contain;
+            top: 30%;
+            left: 10%;
+        }
+
+        .software-global-overlay::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: url('https://www.freeiconspng.com/uploads/c--logo-icon-0.png') no-repeat;
+            background-size: contain;
+            top: 50%;
+            right: 15%;
+        }
+
+        /* 内容容器 */
+        .container {
+            padding: 150px 8% 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 分类筛选器 */
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        /* 软件卡片 */
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .software-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .software-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+
+        .software-type {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .type-website {
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        .type-software {
+            background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%);
+        }
+
+        .software-icon img {
+            width: 50px;
+            filter: brightness(0) invert(1);
+        }
+
+        .software-title {
+            color: white;
+            margin: 15px 0;
+        }
+
+        .software-description {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 下载按钮 */
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        /* 开发者声明页面 */
+        #developer {
+            display: none;
+            padding: 150px 8% 50px;
+        }
+
+        .disclaimer-box {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .disclaimer-box i {
+            font-size: 40px;
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        .disclaimer-box p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* 网站信息显示 */
+        .site-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: right;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 10;
+        }
+
+        /* 其他页面样式 */
+        #other {
+            display: none;
+            padding: 150px 8% 50px;
+            text-align: center;
+        }
+
+        .bubble-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .bubble-count {
+            font-size: 80px;
+            margin: 30px 0;
+            color: #4facfe;
+            text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+        }
+
+        .bubble-btn {
+            padding: 15px 40px;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bubble-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+        }
+
+        .bubble-message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            min-height: 30px;
+        }
+
+        .bubble-animation {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(79, 172, 254, 0.7);
+            border-radius: 50%;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bubbleRise 2s ease-in-out forwards;
+        }
+
+        /* 贡献总次数样式 */
+        .total-bubbles {
+            color: #4facfe;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .next-update {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+
+        @keyframes bubbleRise {
+            0% {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -300px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 15px 5%; }
+            .nav a { margin-left: 15px; }
+            .container, #developer, #other { padding: 120px 5% 30px; }
+            .category-filter { flex-wrap: wrap; }
+            .site-info { font-size: 12px; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="software-global-overlay"></div>
+
+    <header class="header">
+        <div class="logo">CZH综合科技</div>
+        <nav class="nav">
+            <a href="#home.html">首页</a>
+            <a href="#other.html">其他</a>
+            <a href="#developer.html">开发者</a>
+        </nav>
+    </header>
+
+    <!-- 首页内容 -->
+    <div class="container" id="home">
+        <!-- 分类筛选器 -->
+        <div class="category-filter">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="website">网站</button>
+            <button class="filter-btn" data-filter="software">软件</button>
+        </div>
+        
+        <div class="software-grid">
+            <!-- 百度卡片 - 网站 -->
+            <div class="software-card" data-type="website">
+                <span class="software-type type-website">网站</span>
+                <div class="software-icon">
+                    <img src="https://s1.aigei.com/src/img/png/b6/b6383b6c90cf4e07863998bdfb1b890a.png?imageMogr2/auto-orient/thumbnail/!132x132r/gravity/Center/crop/132x132/quality/85/%7CimageView2/2/w/132&e=2051020800&token=P7S2Xpzfz11vAkASLTkfHN7Fw-oOZBecqeJaxypL:t2Gkvppu0eyfYrj9VFTLNHtCp4M=">
+                </div>
+                <h3 class="software-title">百度搜索</h3>
+                <p class="software-description">全球领先的中文搜索引擎，快速获取网络信息</p>
+                <a href="https://www.baidu.com" target="_blank" class="download-btn">
+                    立即访问
+                    <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
+                </a>
+            </div>
+
+            <!-- 必应卡片 - 网站 -->
+            <div class="software-card" data-type="website">
+                <span class="software-type type-website">网站</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=zzFFW4UcIGw1&format=png&color=000000">
+                </div>
+                <h3 class="software-title">必应搜索</h3>
+                <p class="software-description">全球都能访问的搜索引擎，获取信息更加准确</p>
+                <a href="https://cn.bing.com" target="_blank" class="download-btn">
+                    立即访问
+                    <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
+                </a>
+            </div>
+
+
+            <!-- 谷歌搜索卡片 - 网站 -->
+            <div class="software-card" data-type="website">
+                <span class="software-type type-website">网站</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=17904&format=png&color=000000">
+                </div>
+                <h3 class="software-title">Google搜索</h3>
+                <p class="software-description">全球最专业的搜索引擎，输出专业的信息结果</p>
+                <a href="https://www.google.com" target="_blank" class="download-btn">
+                    立即访问
+                    <i class="fas fa-external-link-alt" style="margin-left: 8px;"></i>
+                </a>
+            </div>
+
+            <!-- Python卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://cdn.worldvectorlogo.com/logos/python-5.svg">
+                </div>
+                <h3 class="software-title">Python 3.11</h3>
+                <p class="software-description">高级编程语言，人工智能开发首选工具</p>
+                <a href="https://www.python.org/" target="_blank" class="download-btn">
+                    立即下载
+                </a>
+            </div>
+
+            <!-- 123云盘下载器卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=4716&format=png&color=000000">
+                </div>
+                <h3 class="software-title">123云盘下载器(Python版)</h3>
+                <p class="software-description">更高效，更快速的帮助下载文件</p>
+                <a href="https://wwye.lanzouu.com/b00zxxz9eb" target="_blank" class="download-btn">蓝奏云网盘下载(密码:5cgn)</a>
+            </div>
+
+              <!-- 网盘解析工具1.3.7卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=123438&format=png&color=000000">
+                </div>
+                <h3 class="software-title">网盘解析工具1.3.7</h3>
+                <p class="software-description">多线程，无限制的下载网盘文件</p>
+                <a href="https://gitee.com/lkksnbb/netdisk-prase/releases/download/1.3.7/网盘解析工具-v1.3.7-amd64-installer.exe" target="_blank" class="download-btn">立即下载</a>
+            </div>
+
+            <!-- Office Tool Plus卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=37619&format=png&color=000000">
+                </div>
+                <h3 class="software-title">Office Tool Plus</h3>
+                <p class="software-description">便捷安装Office</p>
+                <a href="https://otp.landian.vip/zh-cn/download.html" target="_blank" class="download-btn">立即下载</a>
+            </div>
+
+            <!-- IDM下载器卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=Do6ZUCApJmfl&format=png&color=000000">
+                </div>
+                <h3 class="software-title">IDM下载器</h3>
+                <p class="software-description">用8倍速度下载文件</p>
+                <a href="https://www.internetdownloadmanager.com" target="_blank" class="download-btn">官网下载安装包</a>
+                <a href="https://wwye.lanzouu.com/b00zy0c5be" target="_blank" class="download-btn">下载激活工具(密码:999h)</a>
+            </div>
+
+            <!-- Astral联机卡片 - 软件 -->
+            <div class="software-card" data-type="software">
+                <span class="software-type type-software">软件</span>
+                <div class="software-icon">
+                    <img src="https://astral.fan/_astro/%E6%9A%97%E8%89%B2.C9IdEQgX.svg">
+                </div>
+                <h3 class="software-title">Astral联机助手</h3>
+                <p class="software-description">适合游戏联机、管理家居、共享文件等功能</p>
+                <a href="https://astral.fan/quick-start/download-install/" target="_blank" class="download-btn">立即下载</a>
+            </div> 
+        </div>
+    </div>
+
+    <!-- 其他页面 -->
+    <section id="other">
+        <div class="bubble-container">
+            <h2><i class="fas fa-bubbles"></i> 贡献值</h2>
+            <div class="bubble-count" id="bubbleCount">0</div>
+            <button class="bubble-btn" id="bubbleBtn">点我贡献 <i class="fas fa-plus"></i></button>
+            <div class="bubble-message" id="bubbleMessage"></div>
+        </div>
+    </section>
+
+    <!-- 开发者页面 -->
+    <section id="developer">
+        <div class="disclaimer-box">
+            <i class="fas fa-info-circle"></i>
+            <p>本作者意图是帮助软件下载，网站快速前往，没有其他意图</p>
+            <a href="https://cn.anotepad.com/note/read/3fhekf49" target="_blank" class="download-btn">联系邮箱</a>
+        </div>
+    </section>
+
+    <!-- 网站信息 -->
+    <div class="site-info">
+        <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
+        <div>用户访问次数: <span id="visitCount">0</span></div>
+        <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
+        <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
+    </div>
+
+    <script>
+        // 页面切换功能
+        document.querySelectorAll('.nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('href').substring(1);
+                
+                // 隐藏所有页面
+                document.querySelectorAll('.container, section[id]').forEach(page => {
+                    page.style.display = 'none';
+                });
+                
+                // 显示目标页面
+                if(pageId === 'home') {
+                    document.getElementById('home').style.display = 'block';
+                } else {
+                    document.getElementById(pageId).style.display = 'block';
+                }
+            });
+        });
+
+        // 分类筛选功能
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有按钮的active类
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // 给当前点击的按钮添加active类
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                const cards = document.querySelectorAll('.software-card');
+                
+                cards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        if (card.getAttribute('data-type') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // 初始化访问次数
+        let visitCount = localStorage.getItem('visitCount') || 0;
+        visitCount++;
+        localStorage.setItem('visitCount', visitCount);
+        document.getElementById('visitCount').textContent = visitCount;
+        
+        // 贡献功能
+        let bubbleCount = 0;
+        let todayBubbles = 0;
+        
+        // 检查是否是同一天
+        const lastBubbleDate = localStorage.getItem('lastBubbleDate');
+        const currentDate = new Date().toDateString();
+        
+        if (lastBubbleDate === currentDate) {
+            // 如果是同一天，读取之前的贡献次数
+            todayBubbles = parseInt(localStorage.getItem('todayBubbles')) || 0;
+        } else {
+            // 如果是新的一天，重置贡献次数
+            todayBubbles = 0;
+            localStorage.setItem('lastBubbleDate', currentDate);
+            localStorage.setItem('todayBubbles', todayBubbles);
+        }
+        
+        document.getElementById('bubbleCount').textContent = todayBubbles;
+        
+        document.getElementById('bubbleBtn').addEventListener('click', function() {
+            // 创建气泡动画
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble-animation';
+            document.getElementById('other').appendChild(bubble);
+            
+            // 移除动画元素
+            setTimeout(() => {
+                bubble.remove();
+            }, 2000);
+            
+            // 更新贡献次计数
+            todayBubbles++;
+            bubbleCount++;
+            
+            // 更新显示
+            document.getElementById('bubbleCount').textContent = todayBubbles;
+            document.getElementById('bubbleMessage').textContent = `今日贡献了 ${todayBubbles} 次！`;
+            
+            // 保存到本地存储
+            localStorage.setItem('todayBubbles', todayBubbles);
+            localStorage.setItem('totalBubbles', bubbleCount);
+        });
+
+        // 网站贡献总次数功能
+        let totalBubbleCount = 245; // 初始值
+        const startTime = new Date('2025-08-24T09:00:00'); // 网站开始运营时间
+        
+        // 计算从开始时间到现在的总分钟数
+        function getTotalMinutes() {
+            const now = new Date();
+            return Math.floor((now - startTime) / (1000 * 60));
+        }
+        
+        // 计算应该增加的次数
+        function calculateTotalBubbles() {
+            const totalMinutes = getTotalMinutes();
+            const intervals = Math.floor(totalMinutes / 15); // 每15分钟一个间隔
+            
+            // 为每个间隔生成一个确定的随机数
+            let total = 245; // 初始值
+            
+            for (let i = 0; i < intervals; i++) {
+                // 使用确定的伪随机数生成算法
+                // 使用间隔索引作为种子，确保每个间隔的随机数相同
+                const random = ((i * 9301 + 49297) % 233280) / 233280;
+                const increment = Math.floor(random * 71) + 20; // 20-90的随机数
+                total += increment;
+            }
+            
+            return total;
+        }
+        
+        // 更新总贡献次数显示
+        function updateTotalBubbles() {
+            totalBubbleCount = calculateTotalBubbles();
+            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
+            
+            // 计算下次更新时间
+            const totalMinutes = getTotalMinutes();
+            const minutesSinceLastUpdate = totalMinutes % 15;
+            const minutesUntilNextUpdate = 15 - minutesSinceLastUpdate;
+            
+            document.getElementById('nextUpdate').textContent = `下次更新: ${minutesUntilNextUpdate}分钟后`;
+        }
+        
+        // 初始更新
+        updateTotalBubbles();
+        
+        // 每分钟更新一次显示
+        setInterval(updateTotalBubbles, 60 * 1000);
+        
+        // 每15分钟增加一次随机数（只是视觉效果，实际计算是确定的）
+        setInterval(() => {
+            // 生成随机增加数
+            const randomIncrement = Math.floor(Math.random() * 71) + 20;
+            totalBubbleCount += randomIncrement;
+            
+            // 更新显示
+            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
+            
+            // 显示更新通知
+            const notification = document.createElement('div');
+            notification.textContent = `网站贡献总次数增加了 ${randomIncrement}！`;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '80px';
+            notification.style.right = '20px';
+            notification.style.background = 'rgba(79, 172, 254, 0.9)';
+            notification.style.color = 'white';
+            notification.style.padding = '10px 15px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '100';
+            notification.style.fontSize = '14px';
+            document.body.appendChild(notification);
+            
+            // 3秒后移除通知
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }, 15 * 60 * 1000); // 15分钟
+
+        // 计算并显示运营时间的详细格式
+        function calculateUptimeDetail() {
+            const startDate = new Date('2025-08-24T09:00:00');
+            const now = new Date();
+            
+            // 计算时间差（毫秒）
+            let diff = now - startDate;
+            
+            // 计算年、月、日、时、分、秒
+            const seconds = Math.floor(diff / 1000) % 60;
+            const minutes = Math.floor(diff / (1000 * 60)) % 60;
+            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            // 计算年和月（近似值，不考虑闰年和月份天数差异）
+            const years = Math.floor(days / 365);
+            const months = Math.floor((days % 365) / 30);
+            const remainingDays = days % 365 % 30;
+            
+            // 构建时间字符串
+            let timeString = '';
+            
+            if (years > 0) {
+                timeString += `${years}年`;
+            }
+            if (months > 0 || years > 0) {
+                timeString += `${months}月`;
+            }
+            
+            timeString += `${remainingDays}天${hours}时${minutes}分${seconds}秒`;
+            
+            // 更新显示
+            document.getElementById('uptimeDetail').textContent = timeString;
+        }
+        
+        // 初始计算
+        calculateUptimeDetail();
+        
+        // 每秒更新一次
+        setInterval(calculateUptimeDetail, 1000);
+    </script>
+</body>
+</html>
