@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重定向中 - CZH综合科技</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .redirect-message {
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        .redirect-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-message">
+        <h2>正在跳转到 CZH综合科技...</h2>
+        <div class="redirect-info" id="redirectInfo">
+            <!-- 重定向信息将在这里显示 -->
+        </div>
+        <div class="spinner"></div>
+        <p>如果页面没有自动跳转，请 <a href="#" id="manualRedirect" style="color: #4facfe;">点击这里</a></p>
+    </div>
+
+    <script>
+        // 获取URL参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const site = urlParams.get('site');
+        
+        // 定义重定向目标
+        const redirectTargets = {
+            'github': {
+                name: 'GitHub主站点',
+                url: 'https://czh2013.github.io/home.html'
+            },
+            'netlify': {
+                name: 'Netlify镜像站点', 
+                url: 'https://czh2013.netlify.app/home.html'
+            }
+        };
+        
+        // 设置重定向信息和目标
+        let targetUrl = 'https://czh2013.github.io/home.html';
+        let infoText = '默认跳转到 GitHub 主站点';
+        
+        if (site && redirectTargets[site]) {
+            const target = redirectTargets[site];
+            targetUrl = target.url;
+            infoText = `正在跳转到 ${target.name}`;
+            
+            // Netlify选项立即跳转，不延迟
+            if (site === 'netlify') {
+                window.location.href = targetUrl;
+                // 如果跳转被阻止，继续显示页面
+            }
+        }
+        
+        // 显示重定向信息
+        document.getElementById('redirectInfo').textContent = infoText;
+        
+        // 设置自动重定向（仅对GitHub选项）
+        if (!site || site === 'github') {
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 100);
+        }
+        
+        // 更新手动跳转链接
+        document.getElementById('manualRedirect').href = targetUrl;
+    </script>
+</body>
+</html>
