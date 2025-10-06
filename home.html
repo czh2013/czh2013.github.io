@@ -242,6 +242,7 @@
             <button class="filter-btn active" data-filter="all">全部</button>
             <button class="filter-btn" data-filter="website">网站</button>
             <button class="filter-btn" data-filter="software">软件</button>
+            <button class="filter-btn" data-filter="other">其他</button>
         </div>
         
         <div class="software-grid">
@@ -355,6 +356,18 @@
                 <p class="software-description">适合游戏联机、管理家居、共享文件等功能</p>
                 <a href="https://astral.fan/quick-start/download-install/" target="_blank" class="download-btn">立即下载</a>
             </div> 
+
+            <!-- Windows10镜像大全 - ISO文件 -->
+            <div class="software-card" data-type="other">
+                <span class="software-type type-other">ISO</span>
+                <div class="software-icon">
+                    <img src="https://img.icons8.com/?size=100&id=99317&format=png&color=000000">
+                </div>
+                <h3 class="software-title">Win10镜像大全</h3>
+                <p class="software-description">全网最齐全的，Microsoft在Internet上发布的，Windows10ISO镜像文件</p>
+                <a href="https://czh2013.github.io/123panwin10.html" target="_blank" class="download-btn">立即下载</a>
+            </div> 
+
         </div>
     </div>
 
@@ -365,6 +378,36 @@
         <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
         <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
     </div>
+</div>
+
+<style>
+.small-platform-btn {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    transition: all 0.3s !important;
+    border: none !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+}
+
+.small-platform-btn.primary {
+    background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%) !important;
+    color: white !important;
+}
+
+.small-platform-btn.secondary {
+    background: rgba(255,255,255,0.1) !important;
+    color: rgba(255,255,255,0.9) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+}
+
+.small-platform-btn:hover {
+    transform: translateY(-1px) !important;
+    opacity: 0.9 !important;
+}
+</style>
 
     <script>
         // 分类筛选功能
