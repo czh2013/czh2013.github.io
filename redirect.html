@@ -77,9 +77,9 @@
                 name: 'GitHub主站点',
                 url: 'https://czh2013.github.io/home.html'
             },
-            'netlify': {
-                name: 'Netlify镜像站点', 
-                url: 'https://czh2013.netlify.app/home.html'
+            'vercel': {
+                name: 'Vercel镜像站点', 
+                url: 'https://czh2013.vercel.app/home.html'
             }
         };
         
@@ -92,8 +92,8 @@
             targetUrl = target.url;
             infoText = `正在跳转到 ${target.name}`;
             
-            // Netlify选项立即跳转，不延迟
-            if (site === 'netlify') {
+            // Vercel选项立即跳转，不延迟
+            if (site === 'vercel') {
                 window.location.href = targetUrl;
                 // 如果跳转被阻止，继续显示页面
             }

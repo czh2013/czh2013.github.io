@@ -20,7 +20,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CZH综合科技 - 精选实用软件与在线工具。提供高速下载的各类开发工具、系统软件，并集合主流搜索引擎，助力您高效工作与学习">
     <title>开发者 | CZH综合科技</title>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 使用 HTTPS 版本的 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -37,6 +38,7 @@
             color: white;
             min-height: 100vh;
             position: relative;
+            padding-bottom: 80px; /* 为页脚留出空间 */
         }
 
         .header {
@@ -119,9 +121,10 @@
             opacity: 0.9;
         }
 
+        /* 网站信息显示 */
         .site-info {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px; /* 调整位置，为页脚留出空间 */
             right: 20px;
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -145,11 +148,85 @@
             margin-top: 5px;
         }
 
+        /* 页脚样式 */
+        .site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 4, 40, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            z-index: 100;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-link:hover {
+            color: #4facfe;
+            transform: translateY(-1px);
+        }
+
+        .discord-link:hover {
+            color: #5865F2;
+        }
+
+        .footer-separator {
+            color: rgba(255,255,255,0.3);
+            font-size: 14px;
+        }
+
+        .copyright {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
         @media (max-width: 768px) {
             .header { padding: 15px 5%; }
             .nav a { margin-left: 15px; }
             .container { padding: 120px 5% 30px; }
-            .site-info { font-size: 12px; padding: 10px; }
+            .site-info { 
+                font-size: 12px; 
+                padding: 10px;
+                bottom: 70px;
+            }
+            .site-footer {
+                padding: 12px 0;
+            }
+            .footer-links {
+                gap: 10px;
+                flex-direction: column;
+            }
+            .footer-separator {
+                display: none;
+            }
+            .footer-link, .copyright {
+                font-size: 12px;
+            }
             .disclaimer-box { padding: 30px 20px; }
         }
     </style>
@@ -158,9 +235,9 @@
     <header class="header">
         <div class="logo">CZH综合科技</div>
         <nav class="nav">
-            <a href="https://czh2013.github.io/home.html">首页</a>
-            <a href="https://czh2013.github.io/other.html">其他</a>
-            <a href="https://czh2013.github.io/developer.html">开发者</a>
+            <a href="home.html">首页</a>
+            <a href="other.html">其他</a>
+            <a href="developer.html">开发者</a>
         </nav>
     </header>
 
@@ -176,12 +253,32 @@
         </div>
     </div>
 
+    <!-- 网站信息 -->
     <div class="site-info">
         <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
         <div>用户访问次数: <span id="visitCount">0</span></div>
         <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
         <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
     </div>
+
+    <!-- 页脚区域 -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://discord.gg/yjGZG3AueY" target="_blank" class="footer-link discord-link">
+                    <i class="fab fa-discord"></i>
+                    Discord社区
+                </a>
+                <span class="footer-separator">|</span>
+                <a href="https://github.com/czh2013/czh2013.github.io" target="_blank" class="footer-link">
+                    <i class="fab fa-github"></i>
+                    GitHub项目
+                </a>
+                <span class="footer-separator">|</span>
+                <span class="copyright">© 2025 CZH综合科技 - 技术资源分享</span>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // 初始化访问次数
@@ -260,7 +357,4 @@
         setInterval(calculateUptimeDetail, 1000);
     </script>
 </body>
-
 </html>
-
-

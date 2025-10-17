@@ -19,7 +19,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>页面未找到 - CZH综合科技</title>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 使用 HTTPS 版本的 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -35,10 +36,8 @@
             background-size: cover;
             color: white;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            position: relative;
+            padding-bottom: 80px; /* 为页脚留出空间 */
         }
 
         .error-container {
@@ -48,6 +47,7 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.2);
+            margin: 50px auto;
         }
 
         .error-code {
@@ -162,11 +162,81 @@
             opacity: 0.8;
         }
 
+        /* 页脚样式 */
+        .site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 4, 40, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            z-index: 100;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-link:hover {
+            color: #4facfe;
+            transform: translateY(-1px);
+        }
+
+        .discord-link:hover {
+            color: #5865F2;
+        }
+
+        .footer-separator {
+            color: rgba(255,255,255,0.3);
+            font-size: 14px;
+        }
+
+        .copyright {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
         @media (max-width: 768px) {
             .error-code { font-size: 80px; }
             .error-title { font-size: 24px; }
             .action-buttons { flex-direction: column; }
             .error-container { margin: 20px; padding: 30px 20px; }
+            .site-footer {
+                padding: 12px 0;
+            }
+            .footer-links {
+                gap: 10px;
+                flex-direction: column;
+            }
+            .footer-separator {
+                display: none;
+            }
+            .footer-link, .copyright {
+                font-size: 12px;
+            }
         }
 
         /* 动画效果 */
@@ -211,10 +281,29 @@
                 <i class="fas fa-arrow-left"></i> 返回上页
             </button>
             <a href="https://czh2013.github.io" class="btn btn-secondary">
-                <i class="fas fa-sync"></i> 重新加载
+                <i class="fas fa-sync"></i> 返回开始
             </a>
         </div>
     </div>
+
+    <!-- 页脚区域 -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://discord.gg/yjGZG3AueY" target="_blank" class="footer-link discord-link">
+                    <i class="fab fa-discord"></i>
+                    Discord社区
+                </a>
+                <span class="footer-separator">|</span>
+                <a href="https://github.com/czh2013/czh2013.github.io" target="_blank" class="footer-link">
+                    <i class="fab fa-github"></i>
+                    GitHub项目
+                </a>
+                <span class="footer-separator">|</span>
+                <span class="copyright">© 2025 CZH综合科技 - 技术资源分享</span>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // 显示当前访问的错误URL
@@ -268,6 +357,4 @@
         }
     </script>
 </body>
-
 </html>
-
