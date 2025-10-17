@@ -12,7 +12,7 @@
             
             // 如果当前不在目标站点，则跳转
             if (currentHost !== targetHost && 
-                currentHost !== 'czh2013.github.io' && 
+                currentHost !== 'czh2013.vercel.app' && 
                 !currentHost.includes('localhost')) {
                 
                 // 使用替换而不是跳转，避免历史记录
@@ -80,14 +80,15 @@
                 }, 3000);
                 
             } else if (currentHost === 'czh2013.github.io') {
-                messageEl.textContent = '正在跳转到主站点...';
+                messageEl.textContent = '正在跳转到站点...';
                 // 已经在head中跳转
                 
             } else {
-                messageEl.textContent = '正在重定向到主站点...';
+                messageEl.textContent = '正在重定向到站点...';
                 // 已经在head中跳转
             }
         });
     </script>
 </body>
+
 </html>
