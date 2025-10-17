@@ -2,93 +2,191 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0;url=https://czh2013.vercel.app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CZH综合科技</title>
+    <title>开始 - CZH综合科技</title>
     <script>
-        // 立即检查当前域名，避免循环跳转
-        (function() {
-            const currentHost = window.location.hostname;
-            const targetHost = 'czh2013.vercel.app';
-            
-            // 如果当前不在目标站点，则跳转
-            if (currentHost !== targetHost && 
-                currentHost !== 'czh2013.vercel.app' && 
-                !currentHost.includes('localhost')) {
-                
-                // 使用替换而不是跳转，避免历史记录
-                window.location.replace('https://czh2013.vercel.app');
-            }
-        })();
+        // 检查是否已经跳转过的标志
+        if (!localStorage.getItem('hasRedirected')) {
+            // 如果没有跳转过，设置标志并跳转
+            localStorage.setItem('hasRedirected', 'true');
+            window.location.href = 'https://czh2013.vercel.app';
+        }
+        // 如果已经跳转过，则不做任何事，继续显示页面内容
     </script>
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 50px;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', sans-serif;
+        }
+        
+        body {
             background: linear-gradient(135deg, #000428 0%, #004e92 100%);
             color: white;
-            text-align: center;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
+        
+        .container {
+            text-align: center;
+            max-width: 1000px;
+            width: 100%;
+        }
+        
         .logo {
             font-size: 48px;
             font-weight: bold;
             margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
         }
-        .message {
+        
+        .description {
+            font-size: 24px;
+            margin-bottom: 60px;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+        
+        .platform-btn {
+            display: inline-block;
+            padding: 30px 60px;
+            font-size: 28px;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            min-width: 300px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .platform-btn.primary {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        
+        .platform-btn.secondary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        
+        .platform-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(79, 172, 254, 0.5);
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .info-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .info-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: left;
+        }
+        
+        .info-item {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        
+        .info-item h4 {
+            color: #4facfe;
+            margin-bottom: 8px;
             font-size: 18px;
-            margin: 20px 0;
         }
-        .spinner {
-            border: 4px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 4px solid white;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+        
+        .info-item p {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            line-height: 1.5;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        @media (max-width: 768px) {
+            .logo { font-size: 36px; }
+            .description { font-size: 20px; }
+            .platform-btn { 
+                font-size: 22px; 
+                padding: 25px 40px;
+                min-width: 250px;
+            }
+            .buttons-container { gap: 25px; }
+            .info-content { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 480px) {
+            .logo { font-size: 28px; }
+            .description { font-size: 18px; margin-bottom: 40px; }
+            .platform-btn { 
+                font-size: 18px; 
+                padding: 20px 30px;
+                min-width: 200px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="logo">CZH综合科技</div>
-    <div class="message" id="message">正在检查重定向...</div>
-    <div class="spinner" id="spinner"></div>
-    
-    <script>
-        // 更新页面显示信息
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentHost = window.location.hostname;
-            const messageEl = document.getElementById('message');
-            const spinnerEl = document.getElementById('spinner');
-            
-            if (currentHost === 'czh2013.vercel.app') {
-                messageEl.textContent = '您已在主站点，无需跳转';
-                spinnerEl.style.display = 'none';
-                
-                // 3秒后跳转到首页
-                setTimeout(() => {
-                    window.location.href = '/home.html';
-                }, 3000);
-                
-            } else if (currentHost === 'czh2013.github.io') {
-                messageEl.textContent = '正在跳转到站点...';
-                // 已经在head中跳转
-                
-            } else {
-                messageEl.textContent = '正在重定向到站点...';
-                // 已经在head中跳转
-            }
-        });
-    </script>
+    <div class="container">
+        <div class="logo">CZH综合科技</div>
+        <div class="description">
+            请选择最适合您的访问节点，获得最佳体验
+        </div>
+        
+        <div class="buttons-container">
+            <a href="redirect.html?site=github" class="platform-btn primary">
+                🌐 GitHub主站点<br>
+                <span style="font-size: 16px; opacity: 0.9;">适合国外用户访问</span>
+            </a>
+            <a href="redirect.html?site=vercel" class="platform-btn secondary">
+                ⚡ Vercel镜像<br>
+                <span style="font-size: 16px; opacity: 0.9;">国内用户加速访问</span>
+            </a>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-title">节点说明</div>
+            <div class="info-content">
+                <div class="info-item">
+                    <h4>GitHub主站点</h4>
+                    <p>• 数据统计完整准确<br>• 内容实时更新<br>• 适合国外网络环境<br>• 官方源站</p>
+                </div>
+                <div class="info-item">
+                    <h4>Vercel镜像</h4>
+                    <p>• 国内访问速度快<br>• 自动同步主站内容<br>• 适合国内网络环境<br>• 数据统计独立</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-
 </html>
