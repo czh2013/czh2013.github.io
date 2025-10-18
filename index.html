@@ -2,17 +2,23 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=https://czh2013.vercel.app">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>开始 - CZH综合科技</title>
     <script>
-        // 检查是否已经跳转过的标志
-        if (!localStorage.getItem('hasRedirected')) {
-            // 如果没有跳转过，设置标志并跳转
-            localStorage.setItem('hasRedirected', 'true');
-            window.location.href = 'https://czh2013.vercel.app';
-        }
-        // 如果已经跳转过，则不做任何事，继续显示页面内容
+        // 智能跳转逻辑 - 在页面加载前执行
+        (function() {
+            const currentHost = window.location.hostname;
+            const targetHost = 'czh2013.vercel.app';
+            
+            // 如果当前不在目标站点，则跳转
+            if (currentHost !== targetHost && 
+                currentHost !== 'localhost' && 
+                currentHost !== '127.0.0.1') {
+                
+                // 使用replace避免历史记录
+                window.location.replace('https://' + targetHost);
+            }
+        })();
     </script>
     <style>
         * {
