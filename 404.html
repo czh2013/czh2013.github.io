@@ -267,14 +267,14 @@
         <div class="suggestions">
             <div class="suggestion-title">你可能想访问：</div>
             <div class="suggestion-links">
-                <a href="home.html" class="suggestion-link">🏠 返回首页</a>
+                <a href="index.html" class="suggestion-link">🏠 返回首页</a>
                 <a href="other.html" class="suggestion-link">💡 贡献值页面</a>
                 <a href="developer.html" class="suggestion-link">👨‍💻 开发者页面</a>
             </div>
         </div>
 
         <div class="action-buttons">
-            <a href="home.html" class="btn">
+            <a href="index.html" class="btn">
                 <i class="fas fa-home"></i> 返回首页
             </a>
             <button class="btn btn-secondary" onclick="history.back()">
@@ -315,7 +315,7 @@
             const query = document.getElementById('searchInput').value.trim();
             if (query) {
                 // 简单的站内搜索 - 跳转到首页并高亮相关内容
-                window.location.href = `home.html?search=${encodeURIComponent(query)}`;
+                window.location.href = `index.html?search=${encodeURIComponent(query)}`;
             }
         }
 
@@ -346,7 +346,7 @@
                 "url": window.location.href,
                 "mainEntity": {
                     "@type": "WebPage",
-                    "url": "https://czh2013.github.io/home.html"
+                    "url": "https://czh2013.github.io/index.html"
                 }
             };
             
@@ -357,4 +357,5 @@
         }
     </script>
 </body>
+
 </html>
