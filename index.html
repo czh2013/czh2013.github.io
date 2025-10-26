@@ -5,22 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CZH综合科技 - 精选实用软件与在线工具。提供高速下载的各类开发工具、系统软件，并集合主流搜索引擎，助力您高效工作与学习">
     <title>开始 - CZH综合科技</title>
-    <script>
-        // 智能跳转逻辑 - 在页面加载前执行
-        (function() {
-            const currentHost = window.location.hostname;
-            const targetHost = 'czh2013.dpdns.org';
-            
-            // 如果当前不在目标站点，则跳转
-            if (currentHost !== targetHost && 
-                currentHost !== 'localhost' && 
-                currentHost !== '127.0.0.1') {
-                
-                // 使用replace避免历史记录
-                window.location.replace('https://' + targetHost);
-            }
-        })();
-    </script>
     <style>
         * {
             margin: 0;
