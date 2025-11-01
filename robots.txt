@@ -1,2 +1,4 @@
 user-agent: *
 Disallow: /image/
+
+Sitemap: https://czh2013.dpdns.org/sitemap.xml
