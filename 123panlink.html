@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 完整的 Favicon 设置 -->
+    <!-- 标准 Favicon -->
+    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
+    
+    <!-- Apple 设备 -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
+    
+    <!-- Android 设备 -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/image/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/image/android-chrome-512x512.png">
+    
+    <!-- Web App 清单 -->
+    <link rel="manifest" href="/image/site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网盘链接指引 | CZH综合科技</title>
+    <style>
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .platform-btn {
+            display: inline-block;
+            padding: 30px 60px;
+            font-size: 36px;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            min-width: 300px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .platform-btn.primary {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .platform-btn.secondary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .platform-btn:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+        }
+        
+        .platform-btn:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+        
+        /* 复制提示样式 */
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            font-size: 16px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .platform-btn { 
+                font-size: 28px; 
+                padding: 20px 40px;
+                min-width: 250px;
+            }
+            .buttons-container {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .platform-btn { 
+                font-size: 24px; 
+                padding: 18px 36px;
+                min-width: 220px;
+            }
+            .buttons-container {
+                gap: 10px;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 在网站页脚添加 -->
+    <div style="text-align: center; margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1);">
+        <div class="buttons-container">
+            <button class="platform-btn primary" onclick="copyPasswordAndRedirect('https://www.123865.com/s/Nwzovd-E2Jod')">主链接</button>
+            <button class="platform-btn secondary" onclick="copyPasswordAndRedirect('https://www.123684.com/s/Nwzovd-E2Jod')">备用链接</button>
+        </div>
+    </div>
+
+    <script>
+        // 复制密码并跳转
+        function copyPasswordAndRedirect(url) {
+            const password = "ohuL";
+            
+            // 复制到剪贴板
+            navigator.clipboard.writeText(password).then(function() {
+                // 显示复制成功提示
+                showCopyNotification('密码 "ohuL" 已复制到剪贴板！');
+                
+                // 延迟一下再跳转，让用户看到提示
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                }, 500);
+                
+            }).catch(function(err) {
+                // 如果复制失败，使用备用方法
+                console.error('复制失败: ', err);
+                fallbackCopyTextToClipboard(password);
+                showCopyNotification('密码 "ohuL" 已复制到剪贴板！');
+                
+                // 延迟一下再跳转，让用户看到提示
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                }, 500);
+            });
+        }
+        
+        // 备用复制方法（兼容旧浏览器）
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('备用复制方法也失败了: ', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // 显示复制成功提示
+        function showCopyNotification(message) {
+            // 移除已存在的提示
+            const existingNotification = document.querySelector('.copy-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = 'copy-notification';
+            notification.innerHTML = `
+                <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 3秒后自动移除
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+    
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</body>
+
+</html>
+
