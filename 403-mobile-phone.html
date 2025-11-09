@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 - 请使用电脑访问 | CZH综合科技</title>
+    <!-- Favicon 设置 -->
+    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/image/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/image/android-chrome-512x512.png">
+    <link rel="manifest" href="/image/site.webmanifest">
+    
+    <!-- 使用 HTTPS 版本的 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://free.picui.cn/free/2025/11/09/691097ce53c4b.png') fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 软件元素覆盖 */
+        .software-global-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .software-global-overlay::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: url('https://cdn-icons-png.flaticon.com/512/226/226777.png') no-repeat;
+            background-size: contain;
+            top: 30%;
+            left: 10%;
+        }
+
+        .software-global-overlay::after {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: url('https://www.freeiconspng.com/uploads/c--logo-icon-0.png') no-repeat;
+            background-size: contain;
+            top: 50%;
+            right: 15%;
+        }
+
+        /* 403 内容容器 */
+        .container {
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .error-description {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .error-icon {
+            font-size: 80px;
+            color: #4facfe;
+            margin-bottom: 30px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.9);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* 提醒消息样式 */
+        .reminder-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 16px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .reminder-message.show {
+            opacity: 1;
+        }
+
+        /* 彩色背景动画 */
+        @keyframes colorChange {
+            0% { background: rgba(255,255,255,0.1); }
+            25% { background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 100%); }
+            50% { background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%); }
+            75% { background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%); }
+            100% { background: rgba(255,255,255,0.1); }
+        }
+
+        .reminder-message.color-animation {
+            animation: colorChange 0.8s ease-in-out;
+        }
+
+        /* 弹跳动画 */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-20px);}
+            60% {transform: translateX(-50%) translateY(-10px);}
+        }
+
+        .reminder-message.bounce-animation {
+            animation: bounce 0.8s ease-in-out;
+        }
+
+        /* 关闭按钮 */
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 18px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        /* 遮罩层 */
+        .overlay-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 99;
+            display: none;
+        }
+
+        .overlay-mask.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .error-code {
+                font-size: 80px;
+            }
+            
+            .error-title {
+                font-size: 24px;
+            }
+            
+            .error-description {
+                font-size: 16px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .reminder-message {
+                width: 90%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="software-global-overlay"></div>
+    
+    <div class="container">
+        <div class="error-icon">
+            <i class="fas fa-laptop"></i>
+        </div>
+        
+        <div class="error-code">403</div>
+        
+        <h1 class="error-title">请使用电脑或开启电脑模式来访问</h1>
+        
+        <p class="error-description">
+            为了获得最佳的浏览体验和完整的功能支持，本网站建议使用电脑访问。<br>
+            如果您正在使用手机，请尝试切换到电脑模式或使用电脑浏览器访问。
+        </p>
+        
+        <div class="action-buttons">
+            <button class="action-btn" id="refreshBtn">
+                <i class="fas fa-redo"></i>
+                重新检测设备
+            </button>
+        </div>
+    </div>
+    
+    <!-- 提醒消息 -->
+    <div class="reminder-message" id="reminderMessage">
+        <button class="close-btn" id="closeReminder">×</button>
+        您在这里不走了吗？
+    </div>
+    
+    <!-- 遮罩层 -->
+    <div class="overlay-mask" id="overlayMask"></div>
+
+    <script>
+        // 设备检测函数
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   (window.innerWidth <= 768);
+        }
+        
+        // 重定向函数
+        function redirectToMainSite() {
+            window.location.href = "https://czh2013.dpdns.org";
+        }
+        
+        // 创建音频对象
+        // 请将下面的URL替换为您自己的音效文件地址
+        const reminderSound = new Audio("https://czh2013.dpdns.org/audio/Bell.mp3");
+        
+        // 显示提醒消息
+        function showReminder() {
+            const reminderMessage = document.getElementById('reminderMessage');
+            const overlayMask = document.getElementById('overlayMask');
+            
+            // 播放音效
+            reminderSound.play().catch(e => {
+                console.log("音效播放失败:", e);
+            });
+            
+            // 显示消息和遮罩层
+            reminderMessage.classList.add('show');
+            overlayMask.classList.add('active');
+            
+            // 添加彩色背景动画
+            reminderMessage.classList.add('color-animation');
+            
+            // 添加弹跳动画
+            reminderMessage.classList.add('bounce-animation');
+            
+            // 0.8秒后移除彩色背景动画
+            setTimeout(() => {
+                reminderMessage.classList.remove('color-animation');
+            }, 800);
+            
+            // 0.8秒后移除弹跳动画
+            setTimeout(() => {
+                reminderMessage.classList.remove('bounce-animation');
+            }, 800);
+        }
+        
+        // 关闭提醒消息
+        function closeReminder() {
+            const reminderMessage = document.getElementById('reminderMessage');
+            const overlayMask = document.getElementById('overlayMask');
+            
+            reminderMessage.classList.remove('show');
+            overlayMask.classList.remove('active');
+        }
+        
+        // 页面加载时检测设备
+        document.addEventListener('DOMContentLoaded', function() {
+            // 如果不是移动设备，则重定向到主站
+            if (!isMobileDevice()) {
+                redirectToMainSite();
+            } else {
+                // 如果是移动设备，设置每分钟提醒
+                setInterval(showReminder, 60000);
+            }
+            
+            // 重新检测设备按钮
+            document.getElementById('refreshBtn').addEventListener('click', function() {
+                if (!isMobileDevice()) {
+                    redirectToMainSite();
+                } else {
+                    alert('检测到您仍在移动设备上，请使用电脑访问以获得完整体验。');
+                }
+            });
+            
+            // 关闭提醒按钮
+            document.getElementById('closeReminder').addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止事件冒泡
+                closeReminder();
+            });
+            
+            // 点击遮罩层关闭提醒
+            document.getElementById('overlayMask').addEventListener('click', function() {
+                closeReminder();
+            });
+            
+            // 点击页面其他区域关闭提醒
+            document.addEventListener('click', function(e) {
+                const reminderMessage = document.getElementById('reminderMessage');
+                const overlayMask = document.getElementById('overlayMask');
+                
+                // 如果点击的不是提醒消息本身，且提醒消息正在显示，则关闭它
+                if (!reminderMessage.contains(e.target) && 
+                    reminderMessage.classList.contains('show') && 
+                    overlayMask.classList.contains('active')) {
+                    closeReminder();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
