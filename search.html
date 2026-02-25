@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CZH科技 - 搜索中心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                url('https://free.picui.cn/free/2025/11/09/691097ce53c4b.png') fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            margin-left: 35px;
+            transition: opacity 0.3s;
+        }
+
+        .nav a:hover {
+            opacity: 0.8;
+        }
+
+        .nav a.active {
+            color: #4facfe;
+        }
+
+        /* 内容容器 */
+        .container {
+            padding: 150px 8% 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 搜索页面专用样式 */
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-engine-selector {
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .engine-toggle {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            min-width: 180px;
+        }
+
+        .engine-toggle:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .engine-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 4, 40, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            width: 220px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 10;
+            margin-top: 5px;
+        }
+
+        .engine-list.active {
+            display: block;
+        }
+
+        .engine-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .engine-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .engine-item.active {
+            background: rgba(79, 172, 254, 0.3);
+        }
+
+        .engine-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+            object-fit: contain;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-left: none;
+            border-right: none;
+            color: white;
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .search-btn {
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .search-btn:hover {
+            opacity: 0.9;
+        }
+
+        .news-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .news-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .news-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+
+        .news-source {
+            display: inline-block;
+            background: rgba(79, 172, 254, 0.3);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .news-headline {
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .news-summary {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* 网站信息显示 */
+        .site-info {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: right;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 10;
+        }
+
+        .total-bubbles {
+            color: #4facfe;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .next-update {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 5px;
+        }
+
+        /* 页脚样式 */
+        .site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 4, 40, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0;
+            z-index: 100;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-link:hover {
+            color: #4facfe;
+            transform: translateY(-1px);
+        }
+
+        .copyright {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 15px 5%; }
+            .nav a { margin-left: 15px; }
+            .container { padding: 120px 5% 30px; }
+            .site-info { 
+                font-size: 12px; 
+                padding: 10px;
+                bottom: 70px;
+            }
+            .site-footer {
+                padding: 12px 0;
+            }
+            .footer-links {
+                gap: 10px;
+                flex-direction: column;
+            }
+            .search-box {
+                flex-direction: column;
+            }
+            .engine-toggle {
+                border-radius: 8px 8px 0 0;
+                margin-right: 0;
+                margin-bottom: -1px;
+                width: 100%;
+                justify-content: center;
+            }
+            .search-input {
+                border-radius: 0;
+                border: 1px solid rgba(255,255,255,0.2);
+                border-top: none;
+                border-bottom: none;
+            }
+            .search-btn {
+                border-radius: 0 0 8px 8px;
+                width: 100%;
+            }
+            .engine-list {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">CZH综合科技</div>
+        <nav class="nav">
+            <a href="index.html">首页</a>
+            <a href="search.html" class="active">搜索</a>
+            <a href="other.html">其他</a>
+            <a href="developer.html">开发者</a>
+            <a href="resources.html">其他资源</a>
+        </nav>
+    </header>
+
+    <!-- 搜索页面内容 -->
+    <div class="container" id="search">
+        <div class="search-container">
+            <div class="search-box">
+                <div class="search-engine-selector">
+                    <button class="engine-toggle" id="engineToggle">
+                        <i class="fas fa-chevron-down" style="margin-right: 8px;"></i>
+                        <span id="currentEngine">百度搜索</span>
+                    </button>
+                    <div class="engine-list" id="engineList">
+                        <div class="engine-item active" data-engine="baidu">
+                            <img src="https://www.baidu.com/favicon.ico" class="engine-icon">
+                            <span>百度搜索</span>
+                        </div>
+                        <div class="engine-item" data-engine="bing">
+                            <img src="https://www.bing.com/favicon.ico" class="engine-icon">
+                            <span>必应搜索</span>
+                        </div>
+                        <div class="engine-item" data-engine="google">
+                            <img src="https://www.google.com/favicon.ico" class="engine-icon">
+                            <span>谷歌搜索</span>
+                        </div>
+                        <div class="engine-item" data-engine="yahoo">
+                            <img src="https://www.yahoo.com/favicon.ico" class="engine-icon">
+                            <span>Yahoo搜索</span>
+                        </div>
+                        <div class="engine-item" data-engine="wikipedia">
+                            <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" class="engine-icon">
+                            <span>维基百科</span>
+                        </div>
+                        <div class="engine-item" data-engine="duckduckgo">
+                            <img src="https://duckduckgo.com/favicon.ico" class="engine-icon">
+                            <span>DuckDuckGo</span>
+                        </div>
+                        <div class="engine-item" data-engine="yandex">
+                            <img src="https://yandex.com/favicon.ico" class="engine-icon">
+                            <span>Yandex搜索</span>
+                        </div>
+                        <div class="engine-item" data-engine="github">
+                            <img src="https://github.com/favicon.ico" class="engine-icon">
+                            <span>GitHub搜索</span>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" class="search-input" id="searchInput" placeholder="输入搜索关键词...">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+
+        <div class="news-container">
+            <div class="news-grid" id="newsGrid">
+                <!-- 新闻内容将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 网站信息 -->
+    <div class="site-info">
+        <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
+        <div>用户访问次数: <span id="visitCount">0</span></div>
+        <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
+        <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
+    </div>
+
+    <!-- 页脚区域 -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://discord.gg/yjGZG3AueY" target="_blank" class="footer-link">
+                    <i class="fab fa-discord"></i>
+                    Discord社区
+                </a>
+                <span class="copyright">© 2025 CZH综合科技 - 技术资源分享</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 搜索引擎切换功能
+        const engineToggle = document.getElementById('engineToggle');
+        const engineList = document.getElementById('engineList');
+        const currentEngine = document.getElementById('currentEngine');
+        const engineItems = document.querySelectorAll('.engine-item');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const newsTitle = document.getElementById('newsTitle');
+        const newsGrid = document.getElementById('newsGrid');
+
+        // 当前选中的搜索引擎
+        let currentEngineType = 'baidu';
+
+        // 切换引擎列表显示/隐藏
+        engineToggle.addEventListener('click', function() {
+            engineList.classList.toggle('active');
+        });
+
+        // 点击引擎选项
+        engineItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const engine = this.getAttribute('data-engine');
+                
+                // 更新当前引擎
+                currentEngineType = engine;
+                currentEngine.textContent = this.querySelector('span').textContent;
+                
+                // 更新激活状态
+                engineItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 隐藏引擎列表
+                engineList.classList.remove('active');
+                
+                // 更新新闻
+                updateNews();
+            });
+        });
+
+        // 点击搜索按钮
+        searchBtn.addEventListener('click', function() {
+            performSearch();
+        });
+
+        // 按Enter键搜索
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // 执行搜索
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                let searchUrl;
+                
+                switch(currentEngineType) {
+                    case 'baidu':
+                        searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`;
+                        break;
+                    case 'bing':
+                        searchUrl = `https://cn.bing.com/search?q=${encodeURIComponent(query)}`;
+                        break;
+                    case 'google':
+                        searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                        break;
+                    case 'yahoo':
+                        searchUrl = `https://search.yahoo.com/search?p=${encodeURIComponent(query)}`;
+                        break;
+                    case 'wikipedia':
+                        searchUrl = `https://zh.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`;
+                        break;
+                    case 'duckduckgo':
+                        searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+                        break;
+                    case 'yandex':
+                        searchUrl = `https://yandex.com/search/?text=${encodeURIComponent(query)}`;
+                        break;
+                    case 'github':
+                        searchUrl = `https://github.com/search?q=${encodeURIComponent(query)}`;
+                        break;
+                }
+                
+                if (searchUrl) {
+                    window.open(searchUrl, '_blank');
+                }
+            }
+        }
+
+        // 更新新闻内容
+        function updateNews() {
+            const news = newsData[currentEngineType];
+            let title = '';
+            
+            newsTitle.textContent = title;
+            
+            // 清空新闻网格
+            newsGrid.innerHTML = '';
+            
+            // 添加新闻卡片
+            news.forEach(item => {
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                
+                newsCard.innerHTML = `
+                    <span class="news-source">${item.source}</span>
+                    <h3 class="news-headline">${item.title}</h3>
+                    <p class="news-summary">${item.summary}</p>
+                    <div class="news-meta">
+                        <span>${item.time}</span>
+                    </div>
+                `;
+                
+                newsGrid.appendChild(newsCard);
+            });
+        }
+
+        // 初始化新闻
+        updateNews();
+
+        // 点击页面其他区域关闭引擎列表
+        document.addEventListener('click', function(e) {
+            if (!engineToggle.contains(e.target) && !engineList.contains(e.target)) {
+                engineList.classList.remove('active');
+            }
+        });
+
+        // 初始化访问次数
+        let visitCount = localStorage.getItem('visitCount') || 0;
+        visitCount++;
+        localStorage.setItem('visitCount', visitCount);
+        document.getElementById('visitCount').textContent = visitCount;
+
+        // 网站贡献总次数功能
+        let totalBubbleCount = 245;
+        const startTime = new Date('2025-08-24T09:00:00');
+        
+        function getTotalMinutes() {
+            const now = new Date();
+            return Math.floor((now - startTime) / (1000 * 60));
+        }
+        
+        function calculateTotalBubbles() {
+            const totalMinutes = getTotalMinutes();
+            const intervals = Math.floor(totalMinutes / 15);
+            let total = 245;
+            
+            for (let i = 0; i < intervals; i++) {
+                const random = ((i * 9301 + 49297) % 233280) / 233280;
+                const increment = Math.floor(random * 71) + 20;
+                total += increment;
+            }
+            
+            return total;
+        }
+        
+        function updateTotalBubbles() {
+            totalBubbleCount = calculateTotalBubbles();
+            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
+            
+            const totalMinutes = getTotalMinutes();
+            const minutesSinceLastUpdate = totalMinutes % 15;
+            const minutesUntilNextUpdate = 15 - minutesSinceLastUpdate;
+            
+            document.getElementById('nextUpdate').textContent = `下次更新: ${minutesUntilNextUpdate}分钟后`;
+        }
+        
+        updateTotalBubbles();
+        setInterval(updateTotalBubbles, 60 * 1000);
+        
+        setInterval(() => {
+            const randomIncrement = Math.floor(Math.random() * 71) + 20;
+            totalBubbleCount += randomIncrement;
+            
+            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
+            
+            const notification = document.createElement('div');
+            notification.textContent = `网站贡献总次数增加了 ${randomIncrement}！`;
+            notification.style.position = 'fixed';
+            notification.style.bottom = '120px';
+            notification.style.right = '20px';
+            notification.style.background = 'rgba(79, 172, 254, 0.9)';
+            notification.style.color = 'white';
+            notification.style.padding = '10px 15px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '100';
+            notification.style.fontSize = '14px';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }, 15 * 60 * 1000);
+
+        function calculateUptimeDetail() {
+            const startDate = new Date('2025-08-24T09:00:00');
+            const now = new Date();
+            
+            let diff = now - startDate;
+            
+            const seconds = Math.floor(diff / 1000) % 60;
+            const minutes = Math.floor(diff / (1000 * 60)) % 60;
+            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            const years = Math.floor(days / 365);
+            const months = Math.floor((days % 365) / 30);
+            const remainingDays = days % 365 % 30;
+            
+            let timeString = '';
+            
+            if (years > 0) {
+                timeString += `${years}年`;
+            }
+            if (months > 0 || years > 0) {
+                timeString += `${months}月`;
+            }
+            
+            timeString += `${remainingDays}天${hours}时${minutes}分${seconds}秒`;
+            
+            document.getElementById('uptimeDetail').textContent = timeString;
+        }
+        
+        calculateUptimeDetail();
+        setInterval(calculateUptimeDetail, 1000);
+    </script>
+</body>
+</html>
