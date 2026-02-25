@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CZH科技 - 搜索中心</title>
+    <title>CZH科技 · 极简居中搜索</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -20,20 +20,20 @@
             background-size: cover;
             color: white;
             min-height: 100vh;
-            position: relative;
-            padding-bottom: 80px;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* 顶部导航栏 */
+        /* 顶部导航栏 (固定高度) */
         .header {
             background: linear-gradient(135deg, #000428 0%, #004e92 100%);
             padding: 20px 8%;
-            position: fixed;
             width: 100%;
-            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 80px;
+            flex-shrink: 0;
         }
 
         .logo {
@@ -57,50 +57,51 @@
             color: #4facfe;
         }
 
-        /* 内容容器 */
-        .container {
-            padding: 150px 8% 50px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* 搜索页面专用样式 */
-        .search-container {
+        /* 主容器：占据剩余高度，完美居中子元素 */
+        .main {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-bottom: 50px;
+            justify-content: center;   /* 垂直居中 */
+            align-items: center;       /* 水平居中 */
+            padding: 0 8%;
+            width: 100%;
         }
 
+        /* 搜索框容器 */
         .search-box {
             display: flex;
             align-items: center;
             width: 100%;
-            max-width: 700px;
-            margin-bottom: 20px;
-            position: relative;
+            max-width: 750px;
+            border-radius: 40px;
+            background: transparent;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
+        /* 搜索引擎选择器 */
         .search-engine-selector {
             position: relative;
-            margin-right: 10px;
         }
 
         .engine-toggle {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.12);
             border: 1px solid rgba(255,255,255,0.2);
+            border-right: none;
             color: white;
-            padding: 12px 15px;
-            border-radius: 8px 0 0 8px;
+            padding: 14px 20px;
+            border-radius: 40px 0 0 40px;
             cursor: pointer;
             display: flex;
             align-items: center;
             transition: all 0.3s;
             min-width: 180px;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
         }
 
         .engine-toggle:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.2);
         }
 
         .engine-list {
@@ -110,13 +111,14 @@
             background: rgba(0, 4, 40, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            width: 220px;
-            max-height: 300px;
+            border-radius: 20px;
+            width: 240px;
+            max-height: 320px;
             overflow-y: auto;
             display: none;
             z-index: 10;
-            margin-top: 5px;
+            margin-top: 8px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
 
         .engine-list.active {
@@ -124,231 +126,101 @@
         }
 
         .engine-item {
-            padding: 10px 15px;
+            padding: 12px 18px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.2s;
             display: flex;
             align-items: center;
+            border-radius: 16px;
+            margin: 4px 6px;
         }
 
         .engine-item:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
         }
 
         .engine-item.active {
-            background: rgba(79, 172, 254, 0.3);
+            background: rgba(79, 172, 254, 0.4);
         }
 
         .engine-icon {
             width: 20px;
             height: 20px;
-            margin-right: 10px;
-            border-radius: 3px;
+            margin-right: 12px;
+            border-radius: 4px;
             object-fit: contain;
         }
 
         .search-input {
             flex: 1;
-            padding: 12px 20px;
-            background: rgba(255,255,255,0.1);
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.12);
             border: 1px solid rgba(255,255,255,0.2);
             border-left: none;
             border-right: none;
             color: white;
             font-size: 16px;
+            backdrop-filter: blur(5px);
+            transition: background 0.2s;
         }
 
         .search-input:focus {
             outline: none;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.18);
         }
 
         .search-btn {
             background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
             border: none;
             color: white;
-            padding: 12px 25px;
-            border-radius: 0 8px 8px 0;
+            padding: 14px 30px;
+            border-radius: 0 40px 40px 0;
             cursor: pointer;
-            transition: opacity 0.3s;
-            font-weight: 500;
+            transition: 0.2s;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 5px 12px rgba(0,110,255,0.3);
         }
 
         .search-btn:hover {
             opacity: 0.9;
+            transform: scale(1.02);
         }
 
-        .news-container {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .news-title {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: white;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .news-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s;
-        }
-
-        .news-card:hover {
-            background: rgba(255,255,255,0.15);
-            transform: translateY(-5px);
-        }
-
-        .news-source {
-            display: inline-block;
-            background: rgba(79, 172, 254, 0.3);
-            padding: 3px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-
-        .news-headline {
-            font-size: 16px;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .news-summary {
-            font-size: 14px;
-            color: rgba(255,255,255,0.7);
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .news-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        /* 网站信息显示 */
-        .site-info {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            text-align: right;
-            border: 1px solid rgba(255,255,255,0.1);
-            z-index: 10;
-        }
-
-        .total-bubbles {
-            color: #4facfe;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .next-update {
-            font-size: 12px;
-            color: rgba(255,255,255,0.6);
-            margin-top: 5px;
-        }
-
-        /* 页脚样式 */
-        .site-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0, 4, 40, 0.9);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 0;
-            z-index: 100;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            text-align: center;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .footer-link {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .footer-link:hover {
-            color: #4facfe;
-            transform: translateY(-1px);
-        }
-
-        .copyright {
-            color: rgba(255,255,255,0.6);
-            font-size: 14px;
-        }
-
+        /* 移动端适配 */
         @media (max-width: 768px) {
-            .header { padding: 15px 5%; }
-            .nav a { margin-left: 15px; }
-            .container { padding: 120px 5% 30px; }
-            .site-info { 
-                font-size: 12px; 
-                padding: 10px;
-                bottom: 70px;
+            .header {
+                padding: 15px 5%;
+                height: 70px;
             }
-            .site-footer {
-                padding: 12px 0;
+            .nav a {
+                margin-left: 15px;
+                font-size: 14px;
             }
-            .footer-links {
-                gap: 10px;
-                flex-direction: column;
+            .main {
+                padding: 0 5%;
             }
             .search-box {
                 flex-direction: column;
+                border-radius: 40px;
+                background: rgba(255,255,255,0.05);
+                padding: 8px;
             }
             .engine-toggle {
-                border-radius: 8px 8px 0 0;
-                margin-right: 0;
-                margin-bottom: -1px;
+                border-radius: 40px 40px 0 0;
                 width: 100%;
                 justify-content: center;
+                border-right: 1px solid rgba(255,255,255,0.2);
             }
             .search-input {
                 border-radius: 0;
                 border: 1px solid rgba(255,255,255,0.2);
                 border-top: none;
                 border-bottom: none;
+                width: 100%;
             }
             .search-btn {
-                border-radius: 0 0 8px 8px;
+                border-radius: 0 0 40px 40px;
                 width: 100%;
             }
             .engine-list {
@@ -362,129 +234,105 @@
         <div class="logo">CZH综合科技</div>
         <nav class="nav">
             <a href="index.html">首页</a>
-            <a href="search.html">搜索</a>
+            <a href="search.html" class="active">搜索</a>
             <a href="other.html">其他</a>
             <a href="developer.html">开发者</a>
             <a href="resources.html">其他资源</a>
         </nav>
     </header>
 
-    <!-- 搜索页面内容 -->
-    <div class="container" id="search">
-        <div class="search-container">
-            <div class="search-box">
-                <div class="search-engine-selector">
-                    <button class="engine-toggle" id="engineToggle">
-                        <i class="fas fa-chevron-down" style="margin-right: 8px;"></i>
-                        <span id="currentEngine">百度搜索</span>
-                    </button>
-                    <div class="engine-list" id="engineList">
-                        <div class="engine-item active" data-engine="baidu">
-                            <img src="https://www.baidu.com/favicon.ico" class="engine-icon">
-                            <span>百度搜索</span>
-                        </div>
-                        <div class="engine-item" data-engine="bing">
-                            <img src="https://www.bing.com/favicon.ico" class="engine-icon">
-                            <span>必应搜索</span>
-                        </div>
-                        <div class="engine-item" data-engine="google">
-                            <img src="https://www.google.com/favicon.ico" class="engine-icon">
-                            <span>谷歌搜索</span>
-                        </div>
-                        <div class="engine-item" data-engine="yahoo">
-                            <img src="https://www.yahoo.com/favicon.ico" class="engine-icon">
-                            <span>Yahoo搜索</span>
-                        </div>
-                        <div class="engine-item" data-engine="wikipedia">
-                            <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" class="engine-icon">
-                            <span>维基百科</span>
-                        </div>
-                        <div class="engine-item" data-engine="duckduckgo">
-                            <img src="https://duckduckgo.com/favicon.ico" class="engine-icon">
-                            <span>DuckDuckGo</span>
-                        </div>
-                        <div class="engine-item" data-engine="yandex">
-                            <img src="https://yandex.com/favicon.ico" class="engine-icon">
-                            <span>Yandex搜索</span>
-                        </div>
-                        <div class="engine-item" data-engine="github">
-                            <img src="https://github.com/favicon.ico" class="engine-icon">
-                            <span>GitHub搜索</span>
-                        </div>
+    <!-- 主区域：只包含搜索框，且完美居中 -->
+    <div class="main">
+        <div class="search-box">
+            <div class="search-engine-selector">
+                <button class="engine-toggle" id="engineToggle">
+                    <i class="fas fa-chevron-down" style="margin-right: 8px;"></i>
+                    <span id="currentEngine">百度搜索</span>
+                </button>
+                <div class="engine-list" id="engineList">
+                    <div class="engine-item active" data-engine="baidu">
+                        <img src="https://www.baidu.com/favicon.ico" class="engine-icon">
+                        <span>百度搜索</span>
+                    </div>
+                    <div class="engine-item" data-engine="bing">
+                        <img src="https://www.bing.com/favicon.ico" class="engine-icon">
+                        <span>必应搜索</span>
+                    </div>
+                    <div class="engine-item" data-engine="google">
+                        <img src="https://www.google.com/favicon.ico" class="engine-icon">
+                        <span>谷歌搜索</span>
+                    </div>
+                    <div class="engine-item" data-engine="yahoo">
+                        <img src="https://www.yahoo.com/favicon.ico" class="engine-icon">
+                        <span>Yahoo搜索</span>
+                    </div>
+                    <div class="engine-item" data-engine="wikipedia">
+                        <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" class="engine-icon">
+                        <span>维基百科</span>
+                    </div>
+                    <div class="engine-item" data-engine="duckduckgo">
+                        <img src="https://duckduckgo.com/favicon.ico" class="engine-icon">
+                        <span>DuckDuckGo</span>
+                    </div>
+                    <div class="engine-item" data-engine="yandex">
+                        <img src="https://yandex.com/favicon.ico" class="engine-icon">
+                        <span>Yandex搜索</span>
+                    </div>
+                    <div class="engine-item" data-engine="github">
+                        <img src="https://github.com/favicon.ico" class="engine-icon">
+                        <span>GitHub搜索</span>
                     </div>
                 </div>
-                <input type="text" class="search-input" id="searchInput" placeholder="输入搜索关键词...">
-                <button class="search-btn" id="searchBtn">
-                    <i class="fas fa-search"></i> 搜索
-                </button>
             </div>
-        </div>
-
-        <div class="news-container">
-            <div class="news-grid" id="newsGrid">
-                <!-- 新闻内容将通过JavaScript动态生成 -->
-            </div>
+            <input type="text" class="search-input" id="searchInput" placeholder="输入搜索关键词...">
+            <button class="search-btn" id="searchBtn">
+                <i class="fas fa-search"></i> 搜索
+            </button>
         </div>
     </div>
-    
+
     <script>
-        // 搜索引擎切换功能
+        // 搜索引擎切换功能 (完整保留)
         const engineToggle = document.getElementById('engineToggle');
         const engineList = document.getElementById('engineList');
         const currentEngine = document.getElementById('currentEngine');
         const engineItems = document.querySelectorAll('.engine-item');
         const searchBtn = document.getElementById('searchBtn');
         const searchInput = document.getElementById('searchInput');
-        const newsTitle = document.getElementById('newsTitle');
-        const newsGrid = document.getElementById('newsGrid');
 
-        // 当前选中的搜索引擎
         let currentEngineType = 'baidu';
 
-        // 切换引擎列表显示/隐藏
-        engineToggle.addEventListener('click', function() {
+        engineToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
             engineList.classList.toggle('active');
         });
 
-        // 点击引擎选项
         engineItems.forEach(item => {
             item.addEventListener('click', function() {
                 const engine = this.getAttribute('data-engine');
-                
-                // 更新当前引擎
                 currentEngineType = engine;
                 currentEngine.textContent = this.querySelector('span').textContent;
                 
-                // 更新激活状态
                 engineItems.forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-                
-                // 隐藏引擎列表
                 engineList.classList.remove('active');
-                
-                // 更新新闻
-                updateNews();
             });
         });
 
-        // 点击搜索按钮
         searchBtn.addEventListener('click', function() {
             performSearch();
         });
 
-        // 按Enter键搜索
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 performSearch();
             }
         });
 
-        // 执行搜索
         function performSearch() {
             const query = searchInput.value.trim();
             if (query) {
                 let searchUrl;
-                
                 switch(currentEngineType) {
                     case 'baidu':
                         searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(query)}`;
@@ -511,7 +359,6 @@
                         searchUrl = `https://github.com/search?q=${encodeURIComponent(query)}`;
                         break;
                 }
-                
                 if (searchUrl) {
                     window.open(searchUrl, '_blank');
                 }
@@ -525,8 +372,5 @@
             }
         });
     </script>
-       
 </body>
-
 </html>
-
