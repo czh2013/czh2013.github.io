@@ -426,14 +426,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 网站信息 -->
-    <div class="site-info">
-        <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
-        <div>用户访问次数: <span id="visitCount">0</span></div>
-        <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
-        <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
-    </div>
     
     <script>
         // 搜索引擎切换功能
@@ -526,143 +518,15 @@
             }
         }
 
-        // 更新新闻内容
-        function updateNews() {
-            const news = newsData[currentEngineType];
-            let title = '';
-            
-            newsTitle.textContent = title;
-            
-            // 清空新闻网格
-            newsGrid.innerHTML = '';
-            
-            // 添加新闻卡片
-            news.forEach(item => {
-                const newsCard = document.createElement('div');
-                newsCard.className = 'news-card';
-                
-                newsCard.innerHTML = `
-                    <span class="news-source">${item.source}</span>
-                    <h3 class="news-headline">${item.title}</h3>
-                    <p class="news-summary">${item.summary}</p>
-                    <div class="news-meta">
-                        <span>${item.time}</span>
-                    </div>
-                `;
-                
-                newsGrid.appendChild(newsCard);
-            });
-        }
-
-        // 初始化新闻
-        updateNews();
-
         // 点击页面其他区域关闭引擎列表
         document.addEventListener('click', function(e) {
             if (!engineToggle.contains(e.target) && !engineList.contains(e.target)) {
                 engineList.classList.remove('active');
             }
         });
-
-        // 初始化访问次数
-        let visitCount = localStorage.getItem('visitCount') || 0;
-        visitCount++;
-        localStorage.setItem('visitCount', visitCount);
-        document.getElementById('visitCount').textContent = visitCount;
-
-        // 网站贡献总次数功能
-        let totalBubbleCount = 245;
-        const startTime = new Date('2025-08-24T09:00:00');
-        
-        function getTotalMinutes() {
-            const now = new Date();
-            return Math.floor((now - startTime) / (1000 * 60));
-        }
-        
-        function calculateTotalBubbles() {
-            const totalMinutes = getTotalMinutes();
-            const intervals = Math.floor(totalMinutes / 15);
-            let total = 245;
-            
-            for (let i = 0; i < intervals; i++) {
-                const random = ((i * 9301 + 49297) % 233280) / 233280;
-                const increment = Math.floor(random * 71) + 20;
-                total += increment;
-            }
-            
-            return total;
-        }
-        
-        function updateTotalBubbles() {
-            totalBubbleCount = calculateTotalBubbles();
-            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
-            
-            const totalMinutes = getTotalMinutes();
-            const minutesSinceLastUpdate = totalMinutes % 15;
-            const minutesUntilNextUpdate = 15 - minutesSinceLastUpdate;
-            
-            document.getElementById('nextUpdate').textContent = `下次更新: ${minutesUntilNextUpdate}分钟后`;
-        }
-        
-        updateTotalBubbles();
-        setInterval(updateTotalBubbles, 60 * 1000);
-        
-        setInterval(() => {
-            const randomIncrement = Math.floor(Math.random() * 71) + 20;
-            totalBubbleCount += randomIncrement;
-            
-            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
-            
-            const notification = document.createElement('div');
-            notification.textContent = `网站贡献总次数增加了 ${randomIncrement}！`;
-            notification.style.position = 'fixed';
-            notification.style.bottom = '120px';
-            notification.style.right = '20px';
-            notification.style.background = 'rgba(79, 172, 254, 0.9)';
-            notification.style.color = 'white';
-            notification.style.padding = '10px 15px';
-            notification.style.borderRadius = '5px';
-            notification.style.zIndex = '100';
-            notification.style.fontSize = '14px';
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }, 15 * 60 * 1000);
-
-        function calculateUptimeDetail() {
-            const startDate = new Date('2025-08-24T09:00:00');
-            const now = new Date();
-            
-            let diff = now - startDate;
-            
-            const seconds = Math.floor(diff / 1000) % 60;
-            const minutes = Math.floor(diff / (1000 * 60)) % 60;
-            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            
-            const years = Math.floor(days / 365);
-            const months = Math.floor((days % 365) / 30);
-            const remainingDays = days % 365 % 30;
-            
-            let timeString = '';
-            
-            if (years > 0) {
-                timeString += `${years}年`;
-            }
-            if (months > 0 || years > 0) {
-                timeString += `${months}月`;
-            }
-            
-            timeString += `${remainingDays}天${hours}时${minutes}分${seconds}秒`;
-            
-            document.getElementById('uptimeDetail').textContent = timeString;
-        }
-        
-        calculateUptimeDetail();
-        setInterval(calculateUptimeDetail, 1000);
     </script>
+       
 </body>
 
 </html>
+
