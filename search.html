@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CZH科技 · 搜索</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 使用 Font Awesome 6 的 CDN，添加 integrity 和 crossorigin 提升可靠性 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         * {
             margin: 0;
@@ -161,6 +162,23 @@
             margin-right: 12px;
             border-radius: 4px;
             object-fit: contain;
+            background: rgba(255,255,255,0.2); /* 加载过程中的占位背景 */
+        }
+
+        /* 图片加载失败时的备用样式（通过 JS 动态添加类） */
+        .engine-icon.fallback-icon {
+            display: none; /* 隐藏图片，用后面的 i 标签显示 */
+        }
+
+        .engine-item .fallback {
+            display: none;
+            margin-right: 8px;
+            font-size: 18px;
+            color: currentColor;
+        }
+
+        .engine-item .fallback.show {
+            display: inline-block;
         }
 
         .search-input {
@@ -199,13 +217,13 @@
             transform: scale(1.02);
         }
 
-        /* 左上角液态玻璃按钮（默认透明，悬浮变蓝） */
+        /* 左上角液态玻璃按钮（默认几乎透明，悬浮变蓝） */
         .theme-toggle {
             position: fixed;
-            top: 95px;                      /* 下移，避免碰到顶栏 */
+            top: 95px;
             left: 20px;
             z-index: 200;
-            background: rgba(0, 122, 255, 0.1);   /* 几乎透明 */
+            background: rgba(0, 122, 255, 0.1);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -224,8 +242,8 @@
         }
 
         .theme-toggle:hover {
-            transform: scale(1.1);               /* 靠近变大 */
-            background: rgba(0, 122, 255, 0.95);  /* 悬浮变深蓝 */
+            transform: scale(1.1);
+            background: rgba(0, 122, 255, 0.95);
             box-shadow: 0 12px 28px rgba(0, 122, 255, 0.5);
             border-color: rgba(255, 255, 255, 0.4);
         }
@@ -246,24 +264,20 @@
             color: #222222;
         }
 
-        /* 所有字体改用微软雅黑 */
-        body.light-mode, 
+        body.light-mode,
         body.light-mode * {
             font-family: 'Microsoft YaHei', '微软雅黑', sans-serif !important;
         }
 
-        /* 隐藏顶部导航栏 */
         body.light-mode .header {
             display: none;
         }
 
-        /* 标题颜色适配浅色 */
         body.light-mode .page-title {
             color: #222;
             text-shadow: none;
         }
 
-        /* 搜索框区域适配浅色背景 */
         body.light-mode .engine-toggle {
             background: rgba(0, 0, 0, 0.05);
             border-color: rgba(0, 0, 0, 0.1);
@@ -307,9 +321,8 @@
             color: white;
         }
 
-        /* 按钮本身在浅色模式下默认也更透明，hover依然变蓝 */
         body.light-mode .theme-toggle {
-            color: #333;                       /* 深色图标文字 */
+            color: #333;
             border-color: rgba(0, 0, 0, 0.1);
         }
 
@@ -357,7 +370,7 @@
                 width: 100%;
             }
             .theme-toggle {
-                top: 85px;                      /* 移动端适当下移 */
+                top: 85px;
                 left: 15px;
                 padding: 10px 14px;
                 font-size: 16px;
@@ -366,9 +379,8 @@
     </style>
 </head>
 <body>
-    <!-- 左上角液态玻璃按钮（默认几乎透明） -->
-    <button class="theme-toggle" id="themeToggle">
-        <i class="fas fa-palette"></i>
+    <!-- 左上角液态玻璃按钮 -->
+    <button 
         <span>主题</span>
     </button>
 
@@ -384,7 +396,6 @@
     </header>
 
     <div class="main">
-        <!-- 新增 H1 标题 -->
         <h1 class="page-title">CZH Technology</h1>
 
         <div class="search-box">
@@ -394,36 +405,45 @@
                     <span id="currentEngine">百度搜索</span>
                 </button>
                 <div class="engine-list" id="engineList">
+                    <!-- 引擎列表，每个项包含图片和一个隐藏的备用图标 -->
                     <div class="engine-item active" data-engine="baidu">
-                        <img src="https://www.baidu.com/favicon.ico" class="engine-icon">
+                        <img src="https://www.baidu.com/favicon.ico" class="engine-icon" alt="百度" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>百度搜索</span>
                     </div>
                     <div class="engine-item" data-engine="bing">
-                        <img src="https://www.bing.com/favicon.ico" class="engine-icon">
+                        <img src="https://www.bing.com/favicon.ico" class="engine-icon" alt="必应" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>必应搜索</span>
                     </div>
                     <div class="engine-item" data-engine="google">
-                        <img src="https://www.google.com/favicon.ico" class="engine-icon">
+                        <img src="https://www.google.com/favicon.ico" class="engine-icon" alt="谷歌" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>谷歌搜索</span>
                     </div>
                     <div class="engine-item" data-engine="yahoo">
-                        <img src="https://www.yahoo.com/favicon.ico" class="engine-icon">
+                        <img src="https://www.yahoo.com/favicon.ico" class="engine-icon" alt="Yahoo" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>Yahoo搜索</span>
                     </div>
                     <div class="engine-item" data-engine="wikipedia">
-                        <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" class="engine-icon">
+                        <img src="https://www.wikipedia.org/static/favicon/wikipedia.ico" class="engine-icon" alt="维基百科" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>维基百科</span>
                     </div>
                     <div class="engine-item" data-engine="duckduckgo">
-                        <img src="https://duckduckgo.com/favicon.ico" class="engine-icon">
+                        <img src="https://duckduckgo.com/favicon.ico" class="engine-icon" alt="DuckDuckGo" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>DuckDuckGo</span>
                     </div>
                     <div class="engine-item" data-engine="yandex">
-                        <img src="https://yandex.com/favicon.ico" class="engine-icon">
+                        <img src="https://yandex.com/favicon.ico" class="engine-icon" alt="Yandex" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>Yandex搜索</span>
                     </div>
                     <div class="engine-item" data-engine="github">
-                        <img src="https://github.com/favicon.ico" class="engine-icon">
+                        <img src="https://github.com/favicon.ico" class="engine-icon" alt="GitHub" onerror="handleIconError(this)">
+                        <i class="fas fa-globe fallback"></i>
                         <span>GitHub搜索</span>
                     </div>
                 </div>
@@ -436,6 +456,24 @@
     </div>
 
     <script>
+        // 引擎图标加载失败时的处理函数
+        function handleIconError(img) {
+            img.style.display = 'none'; // 隐藏图片
+            // 显示同级的备用图标
+            const fallback = img.nextElementSibling; // 应该是 <i> 元素
+            if (fallback && fallback.classList.contains('fallback')) {
+                fallback.classList.add('show');
+            }
+        }
+
+        // 初始化所有引擎项，检查图片是否已加载失败（例如缓存问题）
+        document.querySelectorAll('.engine-icon').forEach(img => {
+            // 如果图片已经加载失败（自然高度为0），触发处理
+            if (img.complete && img.naturalHeight === 0) {
+                handleIconError(img);
+            }
+        });
+
         // 搜索引擎切换功能
         const engineToggle = document.getElementById('engineToggle');
         const engineList = document.getElementById('engineList');
@@ -516,17 +554,31 @@
             }
         });
 
-        // 主题切换按钮
+        // 主题切换按钮（修复图标乱码：确保类名存在）
         const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
         themeToggle.addEventListener('click', function() {
             document.body.classList.toggle('light-mode');
-            const icon = themeToggle.querySelector('i');
             if (document.body.classList.contains('light-mode')) {
-                icon.className = 'fas fa-sun';
+                themeIcon.className = 'fas fa-sun';  // 太阳图标
             } else {
-                icon.className = 'fas fa-palette';
+                themeIcon.className = 'fas fa-palette'; // 调色板图标
             }
         });
+
+        // 额外保险：如果 Font Awesome 加载失败，显示文字符号
+        // 检测图标是否显示正常（例如字体加载失败时，图标可能显示为方块）
+        // 这里简单添加一个 fallback：如果 1 秒后图标仍未渲染，替换为文本符号
+        setTimeout(() => {
+            const icon = themeIcon;
+            // 检查计算样式，如果字体家族不包含 Font Awesome，说明加载失败
+            const fontFamily = window.getComputedStyle(icon).fontFamily;
+            if (!fontFamily.includes('Font Awesome')) {
+                // 替换为简单文本符号
+                icon.outerHTML = '<span style="margin-right:6px;">🎨</span>';
+            }
+        }, 1000);
     </script>
 </body>
 </html>
