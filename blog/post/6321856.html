@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>示例博客 · CZH科技</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f3ee;  /* 旧纸色背景 */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: 'Georgia', 'Times New Roman', '宋体', serif;
+        }
+
+        /* 纸张卡片效果 (静态，不可编辑) */
+        .paper {
+            width: 100%;
+            max-width: 800px;          /* 竖向纸张宽度 */
+            background: #ffffff;
+            padding: 50px 55px 60px 55px;
+            box-shadow: 
+                0 10px 25px rgba(0,0,0,0.1),
+                0 0 0 1px rgba(0,0,0,0.05) inset,
+                0 0 0 2px #f8f4e9 inset;
+            border-radius: 4px;
+            position: relative;
+            line-height: 1.7;
+            color: #2c2c2c;
+        }
+
+        /* 轻微仿旧纹理 */
+        .paper::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.04"/></svg>');
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        /* 文章标题 */
+        .paper h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+            border-bottom: 2px dashed #c0b9a8;
+            padding-bottom: 18px;
+            font-family: 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        .paper .subhead {
+            color: #6b6b6b;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dotted #d9d2c0;
+            padding-bottom: 8px;
+        }
+
+        .paper h2 {
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            color: #3f3f3f;
+            border-left: 5px solid #b87333;
+            padding-left: 18px;
+        }
+
+        .paper h3 {
+            font-size: 1.4rem;
+            margin: 1.8rem 0 0.8rem;
+            color: #4a4a4a;
+        }
+
+        .paper p {
+            margin-bottom: 1.2rem;
+            text-indent: 2em;
+            font-size: 1.08rem;
+        }
+
+        .paper p.no-indent {
+            text-indent: 0;
+        }
+
+        .paper ul, .paper ol {
+            margin: 0.5rem 0 1.5rem 2.5rem;
+        }
+
+        .paper li {
+            margin-bottom: 0.5rem;
+        }
+
+        .paper code {
+            background: #f0eee9;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            color: #b13f3f;
+            border: 1px solid #e0d9cc;
+        }
+
+        .paper .tip {
+            background: #fcf8e7;
+            border-left: 4px solid #e6b800;
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: normal;
+            text-indent: 0;
+        }
+
+        .paper .tip strong {
+            color: #9e6d0b;
+        }
+
+        .paper hr {
+            border: none;
+            border-top: 2px dashed #d4ccbc;
+            margin: 2.5rem 0;
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .paper {
+                padding: 30px 25px;
+            }
+            .paper h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 纯静态纸张内容，不可编辑 -->
+    <div class="paper">
+        <h1>示例博客 · 博客</h1>
+        <div class="subhead">
+            <span>📅 2025年3月2日</span>
+        </div>
+
+        <p>这是一个示例博客</p>
+
+        <h2>这是一个示例博客</h2>
+        <p>这是一个示例博客</p>
+
+        <h2>这是一个示例博客</h2>
+        <p这是一个示例博客</p>
+        <ul>
+            <li这是一个示例博客</code>；</li>
+            <li这是一个示例博客:</li>
+        </ul>
+        <pre style="background:#f2efe8; padding:1rem; border-radius:8px; overflow-x:auto; text-indent:0;"><code>这是一个示例博客的代码</p>
+    </div>
+</body>
+</html>
