@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CZH-Connector | CZH科技</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ---------- RESET & GLOBAL STYLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        /* ---------- MAIN CARD ---------- */
+        .card {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(15, 25, 45, 0.55);
+            backdrop-filter: blur(16px);
+            border-radius: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: transform 0.25s ease, background 0.2s;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(20, 40, 65, 0.65);
+            border-color: rgba(79, 172, 254, 0.5);
+        }
+
+        .icon {
+            font-size: 4.2rem;
+            color: #4facfe;
+            margin-bottom: 0.8rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #91d0ff, #3a9eff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.3px;
+        }
+
+        .desc {
+            color: rgba(255,255,255,0.92);
+            font-size: 1.1rem;
+            line-height: 1.55;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            backdrop-filter: blur(2px);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.3rem;
+            margin: 1.2rem 0 0.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 2rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(105deg, #00c6fb, #005bea);
+            color: white;
+            box-shadow: 0 8px 18px rgba(0,91,234,0.35);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 26px rgba(0,91,234,0.45);
+            background: linear-gradient(105deg, #1ad2ff, #1f6eff);
+        }
+
+        .btn-outline {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            backdrop-filter: blur(4px);
+        }
+
+        .btn-outline:hover {
+            background: rgba(79,172,254,0.25);
+            border-color: #4facfe;
+            transform: translateY(-2px);
+        }
+
+        .version {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 0.3px;
+            border-top: 1px dashed rgba(255,255,255,0.15);
+            padding-top: 1.2rem;
+            display: inline-block;
+            width: 100%;
+        }
+
+        /* ---------- LANGUAGE POPUP (FLOATING PANEL) ---------- */
+        .lang-popup {
+            position: fixed;
+            background: rgba(18, 28, 40, 0.96);
+            backdrop-filter: blur(20px);
+            border-radius: 1.6rem;
+            padding: 0.9rem 0.7rem;
+            min-width: 190px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(79, 172, 254, 0.3);
+            z-index: 2000;
+            transition: opacity 0.2s, transform 0.2s;
+            opacity: 0;
+            transform: scale(0.92);
+            pointer-events: none;
+            border: 1px solid rgba(79,172,254,0.5);
+        }
+
+        .lang-popup.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .lang-popup-title {
+            color: #b3e4ff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            padding-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            letter-spacing: 1px;
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            margin: 6px 8px;
+            border-radius: 2rem;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.2s;
+            cursor: pointer;
+            font-weight: 500;
+            color: #f0f9ff;
+            border: 1px solid transparent;
+        }
+
+        .lang-option i {
+            width: 24px;
+            font-size: 1.2rem;
+            color: #4facfe;
+        }
+
+        .lang-option span {
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .lang-option:hover {
+            background: rgba(79,172,254,0.2);
+            border-color: rgba(79,172,254,0.6);
+            transform: translateX(4px);
+        }
+
+        .lang-option:active {
+            transform: scale(0.98);
+        }
+
+        /* Popup arrow indicator */
+        .popup-arrow {
+            position: absolute;
+            top: -8px;
+            left: 30px;
+            width: 16px;
+            height: 16px;
+            background: rgba(18, 28, 40, 0.96);
+            border-left: 1px solid rgba(79,172,254,0.5);
+            border-top: 1px solid rgba(79,172,254,0.5);
+            transform: rotate(45deg);
+            backdrop-filter: blur(20px);
+            z-index: -1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 550px) {
+            .card {
+                padding: 1.8rem;
+            }
+            .btn {
+                padding: 0.65rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .lang-popup {
+                min-width: 170px;
+            }
+            .lang-option {
+                padding: 8px 12px;
+            }
+        }
+
+        /* Backdrop mask (click outside to close) */
+        .popup-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1999;
+            background: transparent;
+            display: none;
+        }
+        .popup-mask.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="icon">
+        <i class="fas fa-mouse-pointer"></i>
+    </div>
+    <h1>CZH-Connector</h1>
+    <div class="desc">
+        轻量级鼠标自动点击工具 · 毫秒级精度 · 开源免费<br>
+        智能连点，游戏办公利器
+    </div>
+    <div class="btn-group">
+        <!-- Download button: triggers language selection popup -->
+        <button class="btn btn-primary" id="downloadTriggerBtn">
+            <i class="fas fa-download"></i> 立即下载
+        </button>
+        <a href="https://github.com/czh2013/CZH-Connector" target="_blank" class="btn btn-outline">
+            <i class="fab fa-github"></i> GitHub 项目
+        </a>
+    </div>
+    <div class="version">
+        <i class="fas fa-code-branch"></i> 当前版本 v1.00 · 支持 Windows 7/8/10/11
+    </div>
+</div>
+
+<!-- Global mask: closes popup when clicking outside -->
+<div id="popupMask" class="popup-mask"></div>
+
+<!-- Language selection popup -->
+<div id="langPopup" class="lang-popup">
+    <div class="popup-arrow"></div>
+    <div class="lang-popup-title">
+        <i class="fas fa-language"></i> 选择语言
+    </div>
+    <div class="lang-option" data-lang="cn">
+        <i class="fas fa-flag-china"></i>
+        <span>🇨🇳 中文版</span>
+        <i class="fas fa-chevron-right" style="font-size: 12px; opacity: 0.7;"></i>
+    </div>
+    <div class="lang-option" data-lang="en">
+        <i class="fas fa-flag-usa"></i>
+        <span>🇺🇸 英文版 / English</span>
+        <i class="fas fa-chevron-right" style="font-size: 12px; opacity: 0.7;"></i>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== DOWNLOAD URL CONFIGURATION ==========
+        // Replace these URLs with actual release files if needed.
+        // Chinese version installer (recommended filename with ZH or CN)
+        const CN_DOWNLOAD_URL = "https://czh2013.dpdns.org/connector/download/CZH-Connector-Chinese-x64-Setup.exe";
+        // English version installer
+        const EN_DOWNLOAD_URL = "https://czh2013.dpdns.org/connector/download/CZH-Connector-English-x64-Setup.exe";
+        
+        // DOM elements
+        const downloadBtn = document.getElementById('downloadTriggerBtn');
+        const popup = document.getElementById('langPopup');
+        const mask = document.getElementById('popupMask');
+        let currentPopupVisible = false;
+
+        // Helper: hide popup and mask
+        function hidePopup() {
+            if (popup) {
+                popup.classList.remove('show');
+            }
+            if (mask) {
+                mask.classList.remove('active');
+            }
+            currentPopupVisible = false;
+        }
+
+        // Helper: show popup anchored to the download button
+        function showPopup(anchorElement) {
+            if (!popup || !anchorElement) return;
+            
+            // Get button position
+            const rect = anchorElement.getBoundingClientRect();
+            const popupHeight = popup.offsetHeight;
+            const popupWidth = popup.offsetWidth;
+            
+            // Default position: below the button, centered horizontally relative to button
+            let top = rect.bottom + window.scrollY + 8;
+            let left = rect.left + window.scrollX + (rect.width / 2) - (popupWidth / 2);
+            
+            // Edge detection: prevent going outside viewport
+            const viewportWidth = window.innerWidth;
+            if (left + popupWidth > viewportWidth - 10) {
+                left = viewportWidth - popupWidth - 10;
+            }
+            if (left < 10) {
+                left = 10;
+            }
+            
+            // If there is not enough space below, show above the button
+            const spaceBelow = window.innerHeight - rect.bottom;
+            if (spaceBelow < popupHeight + 20 && rect.top > popupHeight + 20) {
+                top = rect.top + window.scrollY - popupHeight - 8;
+                // Adjust arrow direction (pointing downward)
+                const arrow = popup.querySelector('.popup-arrow');
+                if (arrow) {
+                    arrow.style.top = 'auto';
+                    arrow.style.bottom = '-8px';
+                    arrow.style.transform = 'rotate(225deg)';
+                }
+            } else {
+                // reset arrow to top position
+                const arrow = popup.querySelector('.popup-arrow');
+                if (arrow) {
+                    arrow.style.top = '-8px';
+                    arrow.style.bottom = 'auto';
+                    arrow.style.transform = 'rotate(45deg)';
+                }
+            }
+            
+            popup.style.top = top + 'px';
+            popup.style.left = left + 'px';
+            
+            // Show popup and mask
+            popup.classList.add('show');
+            mask.classList.add('active');
+            currentPopupVisible = true;
+        }
+
+        // Trigger download based on language
+        function startDownload(lang) {
+            let downloadUrl = '';
+            if (lang === 'cn') {
+                downloadUrl = CN_DOWNLOAD_URL;
+            } else if (lang === 'en') {
+                downloadUrl = EN_DOWNLOAD_URL;
+            }
+            
+            if (downloadUrl) {
+                // Create a temporary anchor to trigger download
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = '';  // optional, but helps with filename hint
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                console.warn('No download URL defined for language:', lang);
+                // Fallback: alert user (optional)
+                alert('Download link is not configured properly. Please contact support.');
+            }
+            // Close popup after selection
+            hidePopup();
+        }
+
+        // Event: click on download button -> show language popup
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // If popup already visible, close it; otherwise show it
+                if (currentPopupVisible) {
+                    hidePopup();
+                } else {
+                    showPopup(downloadBtn);
+                }
+            });
+        }
+
+        // Language option click handlers
+        const cnOption = document.querySelector('.lang-option[data-lang="cn"]');
+        const enOption = document.querySelector('.lang-option[data-lang="en"]');
+        
+        if (cnOption) {
+            cnOption.addEventListener('click', (e) => {
+                e.stopPropagation();
+                startDownload('cn');
+            });
+        }
+        if (enOption) {
+            enOption.addEventListener('click', (e) => {
+                e.stopPropagation();
+                startDownload('en');
+            });
+        }
+        
+        // Close popup when clicking on mask (outside area)
+        if (mask) {
+            mask.addEventListener('click', () => {
+                hidePopup();
+            });
+        }
+        
+        // Optional: close popup when pressing ESC key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && currentPopupVisible) {
+                hidePopup();
+            }
+        });
+        
+        // Ensure popup closes on window resize to avoid misplacement
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            if (currentPopupVisible) {
+                // Hide popup on resize to prevent visual glitches
+                hidePopup();
+            }
+        });
+        
+        // Prevent any accidental link following if download button is misused
+        // Also block click propagation inside popup options to avoid closing when clicking on options
+        if (popup) {
+            popup.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+    })();
+</script>
+</body>
+</html>
