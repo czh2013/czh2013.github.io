@@ -1,33 +1,99 @@
-<title>网站简易部署教程</title>
-<h1>网站部署教程(简易版)</h1>
-<p><code>因为此期教程是简易版，所以可选项很少，那么可玩性不高。但是下期视频我会发一起进阶版的</code></p>
-<h2>具体步骤</h2>
-<p><img src="https://czh2013.dpdns.org/blog/post/6731108image/255.png" alt="屏幕截图(255)"></p>
-<ol>
-<li>注册GitHub账号</li>
-<li>创建一个仓库及上传网页文件</li>
-<li>进行网站部署(自动化)</li>
-</ol>
-<h3>第一步</h3>
-<p>注册GitHub账号<a href="https://github.com">点击这里</a></p>
-<h3>第二步</h3>
-<p>注册完了会进入到一个叫GitHub仪表盘的界面(GitHub Dashboard)</p>
-<p><img src="https://czh2013.dpdns.org/blog/post/6731108image/241.png" alt="屏幕截图(241)"></p>
-<p>点击左上角的创建仓库(Create repository)</p>
-<p>点击后会来到这样的一个界面</p>
-<p><img src="https://czh2013.dpdns.org/blog/post/6731108image/243.png" alt="屏幕截图(243)"></p>
-<p>需要按图片这样填</p>
-<ol>
-<li>仓库名称(Repository name)   格式是  用户名+github.io</li>
-<li>编写描述(Description    此选项可以省略)</li>
-<li>在配置(Configuration)下的添加自述文件(Add README)选项为开(On)<br>
-这些搞好后点击右下角的创建仓库(Create repository)</li>
-</ol>
-<p>创建好后应该是这样的界面<br>
-<img src="https://czh2013.dpdns.org/blog/post/6731108image/244.png" alt="屏幕截图(244)"><br>
-接着点击右上角的添加文件(Add files)里的上传文件(Upload files)</p>
-<p><img src="https://czh2013.dpdns.org/blog/post/6731108image/245.png" alt="屏幕截图(245)"><br>
-然后上传你的html文件(注意！！！文件名必须是index.html   还要打开电脑上的文件扩展名)</p>
-<p>点击上传(Commit changes)等个几分钟你再访问  你的用户名.github.io  就可以看到网站了</p>
-<p>温馨提示，此教程需要访问国外网站，可能需要科学上网，没有的请联系扣扣1175683760</p>
-<p><strong>最终归属权为快手 广东细节1 &amp; Bilibili CZH-Technology</strong></p>
+<!DOCTYPE html>
+<html lang='zh'>
+<head>
+    <style type='text/css'>
+        html,body{padding:4px 8px 4px 8px;font-family:'sans-serif-regular';}
+        h1,h2,h3,h4,h5,h6{font-family:'sans-serif-condensed';}
+        a{color: #388E3C;text-decoration:underline;}
+        img{height:auto;max-width:100%;max-height: 90vh;margin:auto;}
+        html,body{color:#303030;}
+        blockquote{color:#73747d;}
+        video, img { max-width: 100%; }
+        pre { max-width: 100%; overflow: auto; }
+        table, th, td {  border: 1px solid black; border-collapse: collapse; border-spacing: 0; padding: 6px; }
+        .floatl {float: left;}
+        .clear {clear:both;}
+        button:hover,button:active {filter: invert(1);}
+        button { display: inline-block; box-sizing: border-box; border: none; border-radius: 4px; padding: 0 16px; min-width: 64px; height: 36px; font-family: 'Roboto'; font-size: 14px; font-weight: 500;  line-height: 36px; overflow: hidden; outline: none; vertical-align: middle; text-align: center; text-overflow: ellipsis; text-transform: uppercase; box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); margin: 4px 4px 8px 0px;}
+        .emojibtn,.fa {font-size:250%; background: transparent; padding: 0px; min-width:0px;}
+        .sticky {position: sticky; display: inline-block; border: 0px solid black;}
+        body{margin:0;padding:0.5vh 3.5vw}
+        .header_no_underline { text-decoration: none; color: black; }
+        h1 < a.header_no_underline { border-bottom: 2px solid #eaecef; }
+        h1,h2 { border-bottom: 2px solid #696969; }
+        blockquote{padding:0px 14px;border-left:3.5px solid #dddddd;margin:4px 0}
+        .video-container > p { margin: 0; }
+        .task-list-item { list-style-type:none; text-indent: -1.4em; }
+        li.task-list-item > pre, li.task-list-item > ul > li { text-indent: 0pt; }
+        p > a { word-break:break-all; }
+        .markor-table-of-contents { border: 1px solid black; border-radius: 2px; }
+        .markor-table-of-contents > h1 { padding-left: 14px; margin-bottom: -8px; border-bottom: 1px solid black; }
+        .markor-table-of-contents-list li { margin-left: -12px; }
+        .markor-table-of-contents-list a { text-decoration: none; }
+    </style>
+    <style> 
+        html, body { 
+            /* 
+            font-family: sans-serif-condensed; 
+            font-size: 80%; 
+            */ 
+        } 
+    </style> 
+    <script type="text/javascript"> 
+        function onPageLoaded() { 
+            /* 
+            if ('format-markdown fileext-md' == 'MarkdownTextConverter') { 
+                window.scrollTo(0, document.body.scrollHeight); 
+            } 
+            */ 
+        } 
+    </script>
+    <script> 
+        function onPageLoaded_markor_private() {
+            onPageLoaded(); 
+        }
+    </script>
+</head>
+<body class='format-markdown fileext-md' onload='onPageLoaded_markor_private();'>
+    <title>网站简易部署教程 · CZH科技</title>
+    <!-- USER DOCUMENT CONTENT -->
+
+    <h1 id="网站部署教程简易版"><a href="#网站部署教程简易版" class="header_no_underline">网站部署教程(简易版)</a></h1>
+    <p><code>因为此期教程是简易版，所以可选项很少，那么可玩性不高。但是下期视频我会发一起进阶版的</code></p>
+
+    <h2 id="具体步骤"><a href="#具体步骤" class="header_no_underline">具体步骤</a></h2>
+    <p><img src="https://czh2013.dpdns.org/blog/post/6731108image/255.png" alt="屏幕截图(255)"></p>
+    <ol>
+        <li>注册GitHub账号</li>
+        <li>创建一个仓库及上传网页文件</li>
+        <li>进行网站部署(自动化)</li>
+    </ol>
+
+    <h3 id="第一步"><a href="#第一步" class="header_no_underline">第一步</a></h3>
+    <p>注册GitHub账号<a href="https://github.com">点击这里</a></p>
+
+    <h3 id="第二步"><a href="#第二步" class="header_no_underline">第二步</a></h3>
+    <p>注册完了会进入到一个叫GitHub仪表盘的界面(GitHub Dashboard)</p>
+    <p><img src="https://czh2013.dpdns.org/blog/post/6731108image/241.png" alt="屏幕截图(241)"></p>
+    <p>点击左上角的创建仓库(Create repository)</p>
+    <p>点击后会来到这样的一个界面</p>
+    <p><img src="https://czh2013.dpdns.org/blog/post/6731108image/243.png" alt="屏幕截图(243)"></p>
+    <p>需要按图片这样填</p>
+    <ol>
+        <li>仓库名称(Repository name)   格式是  用户名+github.io</li>
+        <li>编写描述(Description    此选项可以省略)</li>
+        <li>在配置(Configuration)下的添加自述文件(Add README)选项为开(On)<br>
+        这些搞好后点击右下角的创建仓库(Create repository)</li>
+    </ol>
+    <p>创建好后应该是这样的界面<br>
+    <img src="https://czh2013.dpdns.org/blog/post/6731108image/244.png" alt="屏幕截图(244)"><br>
+    接着点击右上角的添加文件(Add files)里的上传文件(Upload files)</p>
+    <p><img src="https://czh2013.dpdns.org/blog/post/6731108image/245.png" alt="屏幕截图(245)"><br>
+    然后上传你的html文件(注意！！！文件名必须是index.html   还要打开电脑上的文件扩展名)</p>
+    <p>点击上传(Commit changes)等个几分钟你再访问  你的用户名.github.io  就可以看到网站了</p>
+    <p>温馨提示，此教程需要访问国外网站，可能需要科学上网，没有的请联系扣扣1175683760</p>
+    <p><strong>最终归属权为快手 广东细节1 &amp; Bilibili CZH-Technology</strong></p>
+
+    <!-- USER DOCUMENT CONTENT END -->
+</body>
+</html>
