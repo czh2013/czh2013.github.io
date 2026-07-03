@@ -55,11 +55,20 @@
     }
     .nav a:hover, .nav a.active {opacity: 0.8; color: #4facfe;}
 
-    /* 主内容区 */
-    .container {padding: 150px 8% 50px; max-width: 1400px; margin: 0 auto;}
+    /* 主内容区 - 调整为单容器 + 卡片间距 */
+    .container {
+        padding: 120px 8% 50px;  /* 顶部内边距减少，适合单个容器 */
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-    /* 可跳转博客卡片（核心模块） */
-    。blog-card-link {text-decoration: none;}
+    /* 卡片链接 - 清除默认链接样式 */
+    .blog-card-link {
+        text-decoration: none;
+        color: inherit;           /* 继承父级颜色，避免蓝色 */
+        display: block;           /* 让链接占满卡片区域 */
+        margin-bottom: 30px;      /* 卡片之间的间距 */
+    }
     .blog-card {
         width: 100%;
         max-width: 800px;
@@ -85,10 +94,10 @@
         margin-bottom: 15px;
         color: #fff;
     }
-    。blog-card__title {
+    .blog-card__title {
         font-size: 22px;
         margin-bottom: 10px;
-        color: #fff;
+        color: #fff;           /* 明确白色 */
         font-weight: 600;
     }
     .blog-card__desc {
@@ -135,7 +144,7 @@
         padding: 15px 0;
         z-index: 100;
     }
-    。footer-content {
+    .footer-content {
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 20px;
@@ -159,19 +168,20 @@
     }
     .footer-link:hover {color: #4facfe; transform: translateY(-1px);}
     .discord-link:hover {color: #5865F2;}
-    。footer-separator {color: rgba(255,255,255,0.3); font-size: 14px;}
+    .footer-separator {color: rgba(255,255,255,0.3); font-size: 14px;}
     .copyright {color: rgba(255,255,255,0.6); font-size: 14px;}
 
     /* 手机端跳转（与原站一致） */
     @media (max-width: 768px) {
         .header {padding: 15px 5%;}
         .nav a {margin-left: 15px;}
-        .container {padding: 120px 5% 30px;}
+        .container {padding: 100px 5% 30px;}  /* 手机端适当减小内边距 */
         .site-info {font-size: 12px; padding: 10px; bottom: 70px;}
         .site-footer {padding: 12px 0;}
         .footer-links {gap: 10px; flex-direction: column;}
         .footer-separator {display: none;}
         .footer-link, .copyright {font-size: 12px;}
+        .blog-card-link {margin-bottom: 20px;} /* 手机端间距稍小 */
     }
 </style>
 </head>
@@ -196,12 +206,22 @@
             <a href="blog.html">博客</a>
             <a href="developer.html">开发者</a>
             <a href="resources.html">其他资源</a>
-            
         </nav>
     </header>
 
-    <!-- 主内容区（仅一个可跳转博客卡片） -->
+    <!-- 主内容区：所有卡片放在同一个容器内 -->
     <div class="container">
+        <a href="/blog/post/6331044.html" target="_blank" class="blog-card-link">
+            <div class="blog-card">
+                <span class="blog-card__tag">网站</span>
+                <h3 class="blog-card__title">网站部署</h3>
+                <p class="blog-card__desc">这篇文章</p>
+                <div class="blog-card__meta">
+                    <span><i class="fas fa-calendar"></i> 2026-07-03</span>
+                </div>
+            </div>
+        </a>
+
         <a href="/blog/post/6331044.html" target="_blank" class="blog-card-link">
             <div class="blog-card">
                 <span class="blog-card__tag">软件</span>
@@ -212,9 +232,7 @@
                 </div>
             </div>
         </a>
-    </div>
 
-    <div class="container">
         <a href="/blog/post/6321856.html" target="_blank" class="blog-card-link">
             <div class="blog-card">
                 <span class="blog-card__tag">示例</span>
@@ -247,12 +265,12 @@
                     <i class="fab fa-github"></i> GitHub项目
                 </a>
                 <span class="footer-separator">|</span>
-                <span class="copyright">© 2026 CZH综合科技 - 技术资源分享</span>
+                <span class="copyright">© 2025-2026 CZH综合科技 - 技术资源分享</span>
             </div>
         </div>
     </footer>
 
-    <!-- 站点通用脚本 -->
+    <!-- 站点通用脚本（保持不变） -->
     <script>
         // 访问次数统计
         let visitCount = localStorage.getItem('visitCount') || 0;
