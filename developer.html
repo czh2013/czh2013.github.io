@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 完整的 Favicon 设置 -->
-    <!-- 标准 Favicon -->
+    <!-- 完整的 Favicon 设置 -->
     <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
-    
-    <!-- Apple 设备 -->
     <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
-    
-    <!-- Android 设备 -->
     <link rel="icon" type="image/png" sizes="192x192" href="/image/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/image/android-chrome-512x512.png">
-    
-    <!-- Web App 清单 -->
     <link rel="manifest" href="/image/site.webmanifest">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CZH综合科技 - 开发者">
+    <meta name="description" content="CZH综合科技 - 开发者个人主页">
     <title>开发者 | CZH综合科技</title>
 
-<!-- Clarity tracking code for https://czh2013.dpdns.org/ -->
-<script>
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "u6gvynkab5");
-</script>
-    
-    <!-- 使用 HTTPS 版本的 Font Awesome -->
+    <!-- Clarity tracking -->
+    <script>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u6gvynkab5");
+    </script>
+
+    <!-- Vercount 统计 -->
+    <script defer src="https://events.vercount.one/js"></script>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -42,15 +39,28 @@
 
         body {
             background: 
-                linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)),
+                linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88)),
                 url('https://free.picui.cn/free/2025/11/09/691097ce53c4b.png') fixed;
             background-size: cover;
             color: white;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 80px; /* 为页脚留出空间 */
+            padding-bottom: 80px;
+            overflow-x: hidden;
         }
 
+        /* ---- Canvas 粒子背景 ---- */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ---- 顶部导航栏 ---- */
         .header {
             background: linear-gradient(135deg, #000428 0%, #004e92 100%);
             padding: 20px 8%;
@@ -61,123 +71,304 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .logo {
             font-size: 24px;
             font-weight: bold;
             color: white;
         }
-
         .nav a {
             color: rgba(255,255,255,0.9);
             text-decoration: none;
             margin-left: 35px;
             transition: opacity 0.3s;
         }
-
         .nav a:hover {
             opacity: 0.8;
         }
 
+        /* ---- 主容器 ---- */
         .container {
             padding: 150px 8% 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+                   Hero 区域（个人品牌展示，居中，无头像）
+                   ============================================================ */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, #4facfe 50%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        .hero-text .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+        }
+        .hero-text .typewriter-wrap {
+            font-size: 1.6rem;
+            color: #4facfe;
+            margin-bottom: 24px;
+            min-height: 2.6rem;
+        }
+        .typewriter-wrap .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.6rem;
+            background: #4facfe;
+            margin-left: 4px;
+            vertical-align: text-bottom;
+            animation: blink 0.8s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero-text .bio {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: rgba(255,255,255,0.7);
+            max-width: 580px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: #0a0a1a;
+            box-shadow: 0 4px 25px rgba(79, 172, 254, 0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(79, 172, 254, 0.5);
+        }
+        .btn-outline {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #fff;
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.14);
+            transform: translateY(-3px);
+        }
+
+        /* ============================================================
+                   技术栈标签
+                   ============================================================ */
+        .tech-section {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        .tech-section h2 {
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+            color: rgba(255,255,255,0.8);
+        }
+        .tech-section h2 i {
+            color: #4facfe;
+            margin-right: 10px;
+        }
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .tech-tag {
+            padding: 8px 22px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.75);
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .tech-tag:hover {
+            background: rgba(79,172,254,0.12);
+            border-color: #4facfe;
+            transform: translateY(-2px);
+            color: #fff;
+        }
+        .tech-tag i {
+            margin-right: 8px;
+            color: #4facfe;
+        }
+
+        /* ============================================================
+                   项目展示卡片
+                   ============================================================ */
+        .projects-section {
+            margin-bottom: 50px;
+        }
+        .projects-section h2 {
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 28px;
+            color: rgba(255,255,255,0.8);
+        }
+        .projects-section h2 i {
+            color: #4facfe;
+            margin-right: 10px;
+        }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 22px;
+        }
+        .project-card {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 28px 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+        .project-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-6px);
+            border-color: rgba(79,172,254,0.25);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .project-card .p-icon {
+            font-size: 30px;
+            color: #4facfe;
+            margin-bottom: 12px;
+        }
+        .project-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+        .project-card p {
+            font-size: 0.92rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+        }
+        .project-card .p-tag {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 4px 14px;
+            background: rgba(79,172,254,0.12);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: #4facfe;
+        }
+
+        /* ============================================================
+                   社交链接
+                   ============================================================ */
+        .social-section {
+            text-align: center;
+            padding: 20px 0 10px;
+        }
+        .social-section .social-links {
             display: flex;
             justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .social-section .social-links a {
+            display: inline-flex;
             align-items: center;
-            min-height: calc(100vh - 200px);
-        }
-
-        。disclaimer-box {
-            max-width: 800px;
-            padding: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.2);
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .disclaimer-box i {
-            font-size: 50px;
-            color: #4facfe;
-            margin-bottom: 20px;
-        }
-
-        .disclaimer-box h2 {
-            margin-bottom: 20px;
-            color: white;
-        }
-
-        .disclaimer-box p {
-            font-size: 18px;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 30px;
-        }
-
-        。download-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
-            color: white;
-            text-align: center;
-            border-radius: 8px;
+            gap: 10px;
+            padding: 12px 28px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 50px;
+            color: rgba(255,255,255,0.7);
             text-decoration: none;
-            transition: opacity 0.3s;
-            font-size: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .social-section .social-links a:hover {
+            background: rgba(79,172,254,0.1);
+            border-color: #4facfe;
+            transform: translateY(-3px);
+            color: #fff;
+        }
+        .social-section .social-links a i {
+            font-size: 1.3rem;
+            color: #4facfe;
         }
 
-        .download-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* 网站信息显示 */
+        /* ============================================================
+                   网站信息 (site-info)
+                   ============================================================ */
         .site-info {
             position: fixed;
-            bottom: 80px; /* 调整位置，为页脚留出空间 */
+            bottom: 80px;
             right: 20px;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 13px;
             text-align: right;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.05);
             z-index: 10;
+            line-height: 1.8;
+            min-width: 140px;
         }
-
-        .total-bubbles {
+        .site-info span {
             color: #4facfe;
-            font-weight: bold;
-            font-size: 16px;
         }
 
-        。next-update {
-            font-size: 12px;
-            color: rgba(255,255,255,0.6);
-            margin-top: 5px;
-        }
-
-        /* 页脚样式 */
+        /* ============================================================
+                   页脚
+                   ============================================================ */
         .site-footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 4, 40, 0.9);
+            background: rgba(0, 4, 40, 0.92);
             backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 14px 0;
             z-index: 100;
         }
-
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
             text-align: center;
         }
-
         .footer-links {
             display: flex;
             justify-content: center;
@@ -185,76 +376,81 @@
             gap: 15px;
             flex-wrap: wrap;
         }
-
-        。footer-link {
-            color: rgba(255,255,255,0.8);
+        .footer-link {
+            color: rgba(255,255,255,0.6);
             text-decoration: none;
             font-size: 14px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
-
         .footer-link:hover {
             color: #4facfe;
             transform: translateY(-1px);
         }
-
-        。discord-link:hover {
-            color: #5865F2;
-        }
-
         .footer-separator {
-            color: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.12);
+            font-size: 14px;
+        }
+        .copyright {
+            color: rgba(255,255,255,0.35);
             font-size: 14px;
         }
 
-        。copyright {
-            color: rgba(255,255,255,0.6);
-            font-size: 14px;
-        }
-
+        /* ============================================================
+                   响应式
+                   ============================================================ */
         @media (max-width: 768px) {
             .header { padding: 15px 5%; }
-            .nav a { margin-left: 15px; }
+            .nav a { margin-left: 15px; font-size: 14px; }
             .container { padding: 120px 5% 30px; }
-            .site-info { 
-                font-size: 12px; 
-                padding: 10px;
+            .hero-text h1 { font-size: 2.8rem; }
+            .hero-text .typewriter-wrap { font-size: 1.3rem; }
+            .hero-text .bio { font-size: 0.95rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .site-info {
+                font-size: 11px;
+                padding: 10px 14px;
                 bottom: 70px;
+                min-width: 120px;
             }
-            .site-footer {
-                padding: 12px 0;
-            }
+            .site-footer { padding: 12px 0; }
             .footer-links {
-                gap: 10px;
                 flex-direction: column;
+                gap: 6px;
             }
-            .footer-separator {
-                display: none;
+            .footer-separator { display: none; }
+            .footer-link, .copyright { font-size: 12px; }
+            .tech-tag { font-size: 0.8rem; padding: 6px 16px; }
+            .social-section .social-links a {
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
-            .footer-link, .copyright {
-                font-size: 12px;
-            }
-            。disclaimer-box { padding: 30px 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .btn { padding: 10px 20px; font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
+    <!-- 移动设备检测 -->
     <script>
-    // 移动设备检测函数
-    function isMobileDevice() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-               (window.innerWidth <= 768);
-    }
-    
-    // 如果当前不是403页面且是移动设备，则跳转到403页面
-    if (!window.location.href.includes('403-mobile-phone.html') && isMobileDevice()) {
-        window.location.href = 'https://czh2013.dpdns.org/403-mobile-phone.html';
-    }
-</script>
-    
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                   (window.innerWidth <= 768);
+        }
+        if (!window.location.href.includes('403-mobile-phone.html') && isMobileDevice()) {
+            window.location.href = 'https://czh2013.dpdns.org/403-mobile-phone.html';
+        }
+    </script>
+
+    <!-- Canvas 粒子背景 -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- 顶部导航 -->
     <header class="header">
         <div class="logo">CZH综合科技</div>
         <nav class="nav">
@@ -266,129 +462,375 @@
         </nav>
     </header>
 
+    <!-- 主内容 -->
     <div class="container">
-        <div class="disclaimer-box">
-            <i class="fas fa-info-circle"></i>
-            <h1>关于开发者</h1>
-            <p>本作者意图是分享实用工具下载，网站快速前往，没有其他意图</p>
-            <a href="mailto:czh666qqwweerr@126.com" target="_blank" class="download-btn">
-                联系邮箱
-                <i class="fas fa-envelope" style="margin-left: 8px;"></i>
-            </a>
-        </div>
+
+        <!-- ===== Hero 区域（居中，无头像） ===== -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <div class="subtitle"><i class="fas fa-code" style="color:#4facfe;margin-right:6px;"></i> 开发者</div>
+                <h1>CZH</h1>
+                <div class="typewriter-wrap">
+                    <span id="typedText"></span><span class="cursor"></span>
+                </div>
+                <p class="bio">
+                    专注于构建实用、高效的数字工具与产品。<br>
+                    热爱开源、乐于分享，致力于用技术解决真实需求。
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://github.com/czh2013" target="_blank" class="btn btn-primary">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="mailto:czh666qqwweerr@126.com" class="btn btn-outline">
+                        <i class="fas fa-envelope"></i> 联系我
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 技术栈 ===== -->
+        <section class="tech-section">
+            <h2><i class="fas fa-microchip"></i> 技术栈</h2>
+            <div class="tech-tags">
+                <span class="tech-tag"><i class="fab fa-html5"></i> HTML5</span>
+                <span class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                <span class="tech-tag"><i class="fab fa-js"></i> JavaScript</span>
+                <span class="tech-tag"><i class="fab fa-python"></i> Python</span>
+                <span class="tech-tag"><i class="fab fa-git-alt"></i> Git</span>
+                <span class="tech-tag"><i class="fas fa-cloud"></i> Cloudflare</span>
+                <span class="tech-tag"><i class="fas fa-server"></i> Nginx</span>
+                <span class="tech-tag"><i class="fab fa-linux"></i> Linux</span>
+                <span class="tech-tag"><i class="fas fa-database"></i> SQLite</span>
+            </div>
+        </section>
+
+        <!-- ===== 项目展示 ===== -->
+        <section class="projects-section">
+            <h2><i class="fas fa-rocket"></i> 项目</h2>
+            <div class="projects-grid">
+                <a href="https://czh2013.dpdns.org" target="_blank" class="project-card">
+                    <div class="p-icon"><i class="fas fa-globe"></i></div>
+                    <h3>CZH综合科技</h3>
+                    <p>个人科技导航站，聚合实用工具、产品导航与博客。</p>
+                    <span class="p-tag"># 静态站点</span>
+                </a>
+                <a href="https://github.com/czh2013" target="_blank" class="project-card">
+                    <div class="p-icon"><i class="fab fa-github"></i></div>
+                    <h3>GitHub 开源</h3>
+                    <p>持续更新的开源项目与代码片段，欢迎 Star ✨</p>
+                    <span class="p-tag"># 开源</span>
+                </a>
+                <a href="https://czh2013.dpdns.org/blog.html" target="_blank" class="project-card">
+                    <div class="p-icon"><i class="fas fa-pen-fancy"></i></div>
+                    <h3>技术博客</h3>
+                    <p>记录学习笔记、技术实践与项目心得。</p>
+                    <span class="p-tag"># 写作</span>
+                </a>
+                <a href="https://czh2013.dpdns.org/other.html" target="_blank" class="project-card">
+                    <div class="p-icon"><i class="fas fa-th-large"></i></div>
+                    <h3>全球产品导航</h3>
+                    <p>收录 250+ 全球热门产品，一键直达各地区版本。</p>
+                    <span class="p-tag"># 工具</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== 社交链接 ===== -->
+        <section class="social-section">
+            <div class="social-links">
+                <a href="https://github.com/czh2013" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://discord.gg/yjGZG3AueY" target="_blank">
+                    <i class="fab fa-discord"></i> Discord
+                </a>
+                <a href="https://space.bilibili.com/3546909245442988" target="_blank">
+                    <i class="fab fa-bilibili"></i> B站
+                </a>
+                <a href="mailto:czh666qqwweerr@126.com">
+                    <i class="fas fa-envelope"></i> 邮箱
+                </a>
+            </div>
+        </section>
+
     </div>
 
     <!-- 网站信息 -->
     <div class="site-info">
-        <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
-        <div>用户访问次数: <span id="visitCount">0</span></div>
-        <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
-        <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
+        <div>⏱ 运营: <span id="uptimeDetail">0天0时0分0秒</span></div>
+        <div>👁 总访问: <span id="vercount_value_site_pv">加载中...</span> 次</div>
+        <div>👤 用户: <span id="visitCount">0</span> 次</div>
     </div>
 
-    <!-- 页脚区域 -->
+    <!-- 页脚 -->
     <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-links">
                 <a href="https://discord.gg/yjGZG3AueY" target="_blank" class="footer-link discord-link">
-                    <i class="fab fa-discord"></i>
-                    Discord社区
+                    <i class="fab fa-discord"></i> Discord社区
                 </a>
                 <span class="footer-separator">|</span>
                 <a href="https://github.com/czh2013/czh2013.github.io" target="_blank" class="footer-link">
-                    <i class="fab fa-github"></i>
-                    GitHub项目
+                    <i class="fab fa-github"></i> GitHub项目
                 </a>
                 <span class="footer-separator">|</span>
-                <span class="copyright">© 2026 CZH综合科技 - 技术资源分享</span>
+                <span class="copyright">© 2025-2026 CZH综合科技 - 技术资源分享</span>
             </div>
         </div>
     </footer>
 
     <script>
-        // 初始化访问次数
+        // ============================================================
+        // 粒子系统
+        // ============================================================
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animationId = null;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            // 粒子颜色 - 蓝色系
+            const colors = [
+                'rgba(79, 172, 254, 0.6)',
+                'rgba(0, 242, 254, 0.5)',
+                'rgba(108, 92, 231, 0.5)',
+                'rgba(162, 155, 254, 0.4)',
+                'rgba(79, 172, 254, 0.3)',
+                'rgba(0, 242, 254, 0.7)'
+            ];
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3.5 + 1.5;
+                    this.speedX = (Math.random() - 0.5) * 0.6;
+                    this.speedY = (Math.random() - 0.5) * 0.6;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.alpha = Math.random() * 0.5 + 0.2;
+                    // 随机方向变化因子
+                    this.drift = Math.random() * 0.01 + 0.005;
+                    this.angle = Math.random() * Math.PI * 2;
+                }
+
+                update() {
+                    // 随机改变方向（布朗运动）
+                    this.angle += (Math.random() - 0.5) * this.drift;
+                    this.speedX += Math.cos(this.angle) * 0.003;
+                    this.speedY += Math.sin(this.angle) * 0.003;
+
+                    // 限速
+                    const maxSpeed = 0.8;
+                    const spd = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
+                    if (spd > maxSpeed) {
+                        this.speedX = (this.speedX / spd) * maxSpeed;
+                        this.speedY = (this.speedY / spd) * maxSpeed;
+                    }
+
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    // 边界回弹（带柔和边缘）
+                    if (this.x < -10) this.x = canvas.width + 10;
+                    if (this.x > canvas.width + 10) this.x = -10;
+                    if (this.y < -10) this.y = canvas.height + 10;
+                    if (this.y > canvas.height + 10) this.y = -10;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.alpha;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+
+                    // 发光效果（较大的粒子带光晕）
+                    if (this.size > 3) {
+                        ctx.shadowColor = 'rgba(79, 172, 254, 0.15)';
+                        ctx.shadowBlur = 12;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(79, 172, 254, 0.1)';
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                    }
+                }
+            }
+
+            // 粒子间连线
+            function drawLines() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const maxDist = 150;
+                        if (dist < maxDist) {
+                            const alpha = (1 - dist / maxDist) * 0.15;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(79, 172, 254, ${alpha})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function initParticles(count) {
+                particles = [];
+                for (let i = 0; i < count; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                drawLines();
+                animationId = requestAnimationFrame(animate);
+            }
+
+            // 根据屏幕宽度调整粒子数量
+            function getParticleCount() {
+                const w = window.innerWidth;
+                if (w < 480) return 50;
+                if (w < 768) return 80;
+                return 120;
+            }
+
+            function restartParticles() {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+                initParticles(getParticleCount());
+                animate();
+            }
+
+            // 窗口大小变化时重新调整
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    resizeCanvas();
+                    restartParticles();
+                }, 300);
+            });
+
+            // 启动
+            restartParticles();
+
+            // 页面可见性变化时暂停/恢复（优化性能）
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    if (animationId) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    }
+                } else {
+                    if (!animationId) {
+                        animate();
+                    }
+                }
+            });
+        })();
+
+        // ============================================================
+        // 打字机效果
+        // ============================================================
+        (function() {
+            const el = document.getElementById('typedText');
+            if (!el) return;
+
+            const words = [
+                '全栈开发者',
+                '开源爱好者',
+                '技术布道者',
+                '独立开发者',
+                '创新实践者'
+            ];
+
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let timer = null;
+
+            function typeEffect() {
+                const currentWord = words[wordIndex];
+                const speed = isDeleting ? 50 : 100;
+
+                if (!isDeleting) {
+                    el.textContent = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                    if (charIndex === currentWord.length) {
+                        isDeleting = true;
+                        timer = setTimeout(typeEffect, 2000);
+                        return;
+                    }
+                } else {
+                    el.textContent = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        wordIndex = (wordIndex + 1) % words.length;
+                        timer = setTimeout(typeEffect, 400);
+                        return;
+                    }
+                }
+                timer = setTimeout(typeEffect, speed);
+            }
+
+            typeEffect();
+
+            window.addEventListener('beforeunload', function() {
+                if (timer) clearTimeout(timer);
+            });
+        })();
+
+        // ============================================================
+        // 用户访问次数
+        // ============================================================
         let visitCount = localStorage.getItem('visitCount') || 0;
         visitCount++;
         localStorage.setItem('visitCount', visitCount);
         document.getElementById('visitCount').textContent = visitCount;
 
-        // 网站贡献总次数功能
-        let totalBubbleCount = 245;
-        const startTime = new Date('2025-08-24T09:00:00');
-        
-        function getTotalMinutes() {
-            const now = new Date();
-            return Math.floor((now - startTime) / (1000 * 60));
-        }
-        
-        function calculateTotalBubbles() {
-            const totalMinutes = getTotalMinutes();
-            const intervals = Math.floor(totalMinutes / 15);
-            let total = 245;
-            
-            for (let i = 0; i < intervals; i++) {
-                const random = ((i * 9301 + 49297) % 233280) / 233280;
-                const increment = Math.floor(random * 71) + 20;
-                total += increment;
-            }
-            
-            return total;
-        }
-        
-        function updateTotalBubbles() {
-            totalBubbleCount = calculateTotalBubbles();
-            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
-            
-            const totalMinutes = getTotalMinutes();
-            const minutesSinceLastUpdate = totalMinutes % 15;
-            const minutesUntilNextUpdate = 15 - minutesSinceLastUpdate;
-            
-            document.getElementById('nextUpdate').textContent = `下次更新: ${minutesUntilNextUpdate}分钟后`;
-        }
-        
-        updateTotalBubbles();
-        setInterval(updateTotalBubbles, 60 * 1000);
-
+        // ============================================================
+        // 运营时间
+        // ============================================================
         function calculateUptimeDetail() {
             const startDate = new Date('2025-08-24T09:00:00');
             const now = new Date();
-            
             let diff = now - startDate;
-            
             const seconds = Math.floor(diff / 1000) % 60;
             const minutes = Math.floor(diff / (1000 * 60)) % 60;
             const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            
             const years = Math.floor(days / 365);
             const months = Math.floor((days % 365) / 30);
             const remainingDays = days % 365 % 30;
-            
+
             let timeString = '';
-            
-            if (years > 0) {
-                timeString += `${years}年`;
-            }
-            if (months > 0 || years > 0) {
-                timeString += `${months}月`;
-            }
-            
-            timeString += `${remainingDays}天${hours}时${minutes}分${seconds}秒`;
-            
+            if (years > 0) timeString += years + '年';
+            if (months > 0 || years > 0) timeString += months + '月';
+            timeString += remainingDays + '天' + hours + '时' + minutes + '分' + seconds + '秒';
             document.getElementById('uptimeDetail').textContent = timeString;
         }
-        
         calculateUptimeDetail();
         setInterval(calculateUptimeDetail, 1000);
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
