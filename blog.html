@@ -22,6 +22,8 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "u6gvynkab5");
 </script>
+<!-- Vercount 统计 -->
+<script defer src="https://events.vercount.one/js"></script>
 <!-- Font Awesome 图标 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
@@ -128,9 +130,10 @@
         text-align: right;
         border: 1px solid rgba(255,255,255,0.1);
         z-index: 10;
+        line-height: 1.8;
+        min-width: 150px;
     }
-    .total-bubbles {color: #4facfe; font-weight: bold; font-size: 16px;}
-    .next-update {font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 5px;}
+    .site-info span { color: #4facfe; }
 
     /* 页脚（与原站一致） */
     .site-footer {
@@ -176,7 +179,7 @@
         .header {padding: 15px 5%;}
         .nav a {margin-left: 15px;}
         .container {padding: 100px 5% 30px;}  /* 手机端适当减小内边距 */
-        .site-info {font-size: 12px; padding: 10px; bottom: 70px;}
+        .site-info {font-size: 12px; padding: 10px; bottom: 70px; min-width: 130px;}
         .site-footer {padding: 12px 0;}
         .footer-links {gap: 10px; flex-direction: column;}
         .footer-separator {display: none;}
@@ -245,12 +248,11 @@
         </a>
     </div>
 
-    <!-- 站点信息 -->
+    <!-- 站点信息（已删除贡献值和下次更新，添加 Vercount 总访问量） -->
     <div class="site-info">
-        <div>运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
-        <div>用户访问次数: <span id="visitCount">0</span></div>
-        <div>网站贡献总次数: <span id="totalBubbleCount" class="total-bubbles">245</span></div>
-        <div class="next-update" id="nextUpdate">下次更新: 15分钟后</div>
+        <div>⏱ 运营时间: <span id="uptimeDetail">0天0时0分0秒</span></div>
+        <div>👁 总访问量: <span id="vercount_value_site_pv">加载中...</span> 次</div>
+        <div>👤 用户访问: <span id="visitCount">0</span> 次</div>
     </div>
 
     <!-- 页脚 -->
@@ -270,38 +272,12 @@
         </div>
     </footer>
 
-    <!-- 站点通用脚本（保持不变） -->
     <script>
-        // 访问次数统计
+        // 用户访问次数
         let visitCount = localStorage.getItem('visitCount') || 0;
         visitCount++;
         localStorage.setItem('visitCount', visitCount);
         document.getElementById('visitCount').textContent = visitCount;
-
-        // 贡献总次数
-        let totalBubbleCount = 245;
-        const startTime = new Date('2025-08-24T09:00:00');
-        function getTotalMinutes() {const now = new Date(); return Math.floor((now - startTime) / (1000 * 60));}
-        function calculateTotalBubbles() {
-            const totalMinutes = getTotalMinutes();
-            const intervals = Math.floor(totalMinutes / 15);
-            let total = 245;
-            for (let i = 0; i < intervals; i++) {
-                const random = ((i * 9301 + 49297) % 233280) / 233280;
-                const increment = Math.floor(random * 71) + 20;
-                total += increment;
-            }
-            return total;
-        }
-        function updateTotalBubbles() {
-            totalBubbleCount = calculateTotalBubbles();
-            document.getElementById('totalBubbleCount').textContent = totalBubbleCount.toLocaleString();
-            const totalMinutes = getTotalMinutes();
-            const minutesUntilNextUpdate = 15 - (totalMinutes % 15);
-            document.getElementById('nextUpdate').textContent = `下次更新: ${minutesUntilNextUpdate}分钟后`;
-        }
-        updateTotalBubbles();
-        setInterval(updateTotalBubbles, 60 * 1000);
 
         // 运营时间计算
         function calculateUptimeDetail() {
