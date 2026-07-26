@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>网站部署教程（进阶版）</title>
+    <style>
+        /* 全局重置 & 排版 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f6f9fc;
+            color: #1e293b;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 2.5rem 2.8rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 标题 */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 0.6rem;
+            margin-bottom: 1.6rem;
+            color: #0f172a;
+        }
+
+        h1 small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #64748b;
+            margin-left: 0.75rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-top: 2.2rem;
+            margin-bottom: 1rem;
+            color: #0f172a;
+            border-left: 5px solid #3b82f6;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.8rem;
+            margin-bottom: 0.6rem;
+            color: #1e293b;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted #b9d0f0;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        a:hover {
+            color: #1d4ed8;
+            border-bottom-color: #1d4ed8;
+        }
+
+        /* 有序列表 & 无序列表 */
+        ol,
+        ul {
+            padding-left: 1.6rem;
+            margin-bottom: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        li ol,
+        li ul {
+            margin-top: 0.2rem;
+            margin-bottom: 0.2rem;
+        }
+
+        /* 引用块 / 提示 */
+        .note {
+            background: #f1f5f9;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            border-left: 5px solid #3b82f6;
+            margin: 1.2rem 0;
+            color: #1e293b;
+        }
+
+        .note strong {
+            color: #0f172a;
+        }
+
+        /* 图片 */
+        .image-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 1.2rem 0;
+        }
+
+        .image-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 14px;
+            border: 1px solid #e9edf2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            background: #fafcff;
+            display: block;
+            transition: box-shadow 0.2s;
+        }
+
+        .image-grid img:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        .image-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.2rem 0;
+        }
+
+        .image-row img {
+            flex: 1 1 calc(50% - 0.5rem);
+            min-width: 200px;
+            border-radius: 14px;
+            border: 1px solid #e9edf2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            background: #fafcff;
+            transition: box-shadow 0.2s;
+        }
+
+        .image-row img:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        /* 代码 / 内联命令 */
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            background: #eef2f6;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #1e293b;
+            word-break: break-all;
+        }
+
+        .dns-list {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 1.2rem 1.8rem;
+            margin: 1rem 0;
+            border: 1px solid #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.9;
+        }
+
+        .dns-list span {
+            display: inline-block;
+            min-width: 120px;
+        }
+
+        .dns-list .type {
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .dns-list .name {
+            color: #0f172a;
+        }
+
+        .dns-list .value {
+            color: #b45309;
+        }
+
+        /* 步骤卡片 */
+        .step-card {
+            background: #fafcff;
+            border-radius: 16px;
+            padding: 1.4rem 1.8rem;
+            margin: 1.4rem 0;
+            border: 1px solid #e9edf2;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .step-card .step-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #0f172a;
+            margin-bottom: 0.6rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem 1.2rem;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .image-row img {
+                flex: 1 1 100%;
+            }
+
+            .dns-list {
+                padding: 1rem;
+                font-size: 0.85rem;
+                overflow-x: auto;
+            }
+        }
+
+        /* 一些小修整 */
+        hr {
+            border: none;
+            border-top: 2px dashed #dce2ea;
+            margin: 2rem 0;
+        }
+
+        .footer-note {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+            color: #475569;
+            text-align: center;
+        }
+
+        .footer-note a {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>网站部署教程 <small>进阶版</small></h1>
+
+        <p>本期教程是《网站部署教程（简易版）》的进阶版本，包含了获取自定义域名、CloudFlare 加速与保护，以后还有别的部署方法。这里为了方便我就使用临时邮箱了。</p>
+
+        <!-- 目录 -->
+        <div class="step-card" style="background:#f1f5f9; border-color:#d1d9e6;">
+            <div class="step-title">📋 操作概览</div>
+            <ol style="margin-bottom:0;">
+                <li>获取域名（此处演示的是免费域名）</li>
+                <li>配置 CloudFlare</li>
+                <li>部署</li>
+            </ol>
+        </div>
+
+        <h2>第一步 获取域名</h2>
+        <p>免费域名获取平台有很多，这里列举几个并且使用 Digitalplat Domains。</p>
+
+        <ul>
+            <li><strong>DigitalPlat Domains</strong> — <a href="https://domain.digitalplat.org/" target="_blank">点击这里</a></li>
+            <li><strong>ClouDNS</strong> — <a href="https://www.cloudns.net/" target="_blank">点击这里</a></li>
+            <li><strong>EU.org</strong> — <a href="https://nic.eu.org" target="_blank">点击这里</a></li>
+            <li><strong>DNSHe</strong> — <a href="https://www.dnshe.com/" target="_blank">点击这里</a></li>
+        </ul>
+
+        <p>以 Digitalplat Domains 为例，注册账号（注册时建议使用美国地址生成器）后来到主界面。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/278.png" alt="DigitalPlat 主界面 1" loading="lazy" />
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2782.png" alt="DigitalPlat 主界面 2" loading="lazy" />
+        </div>
+
+        <p>看到下面，去点一颗 Digitalplat Domains 的 GitHub 仓库的星，然后验证，会有个额外的插槽，也就是相当于可以获取 2 个免费域名。</p>
+
+        <p>然后再点击左边的 <strong>域名注册</strong>。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2792.png" alt="域名注册入口" loading="lazy" />
+        </div>
+
+        <p>然后写上你自己想要的域名（<strong>注：</strong>有些域名可能需要额外收费）。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/280.png" alt="填写域名" loading="lazy" />
+        </div>
+
+        <p>填好后点击 <strong>检查可用性</strong>，之后会来到这里。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/281.png" alt="检查可用性结果" loading="lazy" />
+        </div>
+
+        <p>现在我们注册 CloudFlare 账号 <a href="https://www.cloudflare.com/zh-cn/" target="_blank">点击这里</a>。</p>
+
+        <p>注册完后点击左侧的 <strong>域名</strong>。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2832.png" alt="CloudFlare 左侧菜单" loading="lazy" />
+        </div>
+
+        <p>点击右上角 <strong>新建域名</strong>。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2842.png" alt="新建域名按钮" loading="lazy" />
+        </div>
+
+        <p>选择第一个 <strong>连接域名</strong>。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2852.png" alt="连接域名选项" loading="lazy" />
+        </div>
+
+        <p>把自定义域名填好后，点击 <strong>继续</strong>。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/286.png" alt="填写自定义域名" loading="lazy" />
+        </div>
+
+        <p>就会来到计划页面，这里可以根据自己来选择，选 <strong>免费计划</strong> 就差不多够用了。（注意：如果您显示了配置 DNS 页面，请看后面的步骤图。）</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/287.png" alt="选择免费计划" loading="lazy" />
+        </div>
+
+        <p>然后来到 <strong>更新域名服务器</strong> 页面。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2882.png" alt="更新域名服务器" loading="lazy" />
+        </div>
+
+        <p>把图片中指的那两个服务器复制到之前 DigitalPlat Domains 的域名配置界面，点击注册就好了。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2813.png" alt="DigitalPlat 配置界面" loading="lazy" />
+        </div>
+
+        <p>要续费域名的话，点击 <strong>续费</strong> 那一栏，点击 <strong>申请免费续费</strong>。</p>
+
+        <p>然后返回 CloudFlare，找到最下面的 <strong>我已更新我的名称服务器</strong> 并点击，等待一会，CloudFlare 的显示应该是这样：</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/292.png" alt="CloudFlare 名称服务器更新成功" loading="lazy" />
+        </div>
+
+        <p>接着打开《网站部署（简易版）》的 GitHub 仓库 <a href="https://czh2013.dpdns.org/blog/post/6731108.html" target="_blank">还没看？点击这里！</a></p>
+
+        <p>点击上方的 <strong>设置</strong>。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2932.png" alt="GitHub 设置入口" loading="lazy" />
+        </div>
+
+        <p>在左侧找到 <strong>页面</strong> 并点击。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2942.png" alt="GitHub Pages 设置" loading="lazy" />
+        </div>
+
+        <p>在 <strong>自定义域名</strong> 里写上自己的域名。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2952.png" alt="自定义域名输入" loading="lazy" />
+        </div>
+
+        <p>随后返回 CloudFlare 页面，找到该域名下的 <strong>DNS</strong> 选项并点击。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/298.png" alt="CloudFlare DNS 选项" loading="lazy" />
+        </div>
+
+        <p>点击添加，并按图中格式填，填 4 条。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/299.png" alt="添加 DNS 记录" loading="lazy" />
+        </div>
+
+        <div class="dns-list">
+            <div><span class="type">类型 A</span> <span class="name">名称 @</span> <span class="value">IPV4 地址 185.199.108.153</span></div>
+            <div><span class="type">类型 A</span> <span class="name">名称 @</span> <span class="value">IPV4 地址 185.199.109.153</span></div>
+            <div><span class="type">类型 A</span> <span class="name">名称 @</span> <span class="value">IPV4 地址 185.199.110.153</span></div>
+            <div><span class="type">类型 A</span> <span class="name">名称 @</span> <span class="value">IPV4 地址 185.199.111.153</span></div>
+        </div>
+
+        <p>填好后就是这样：</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/300.png" alt="DNS 记录填写完成" loading="lazy" />
+        </div>
+
+        <p>如果你想让域名前面加个 <code>www</code> 也可以访问，可以看下面的图片。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/301.png" alt="添加 www 记录" loading="lazy" />
+        </div>
+
+        <p>再返回之前的 GitHub 仓库页面，点 <strong>Save</strong>（保存）就好了。</p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/2953.png" alt="GitHub 保存设置" loading="lazy" />
+        </div>
+
+        <p><strong>示例网站</strong></p>
+
+        <div class="image-grid">
+            <img src="czh2013.dpdns.org/blog/post/67262240image/302.png" alt="示例网站截图" loading="lazy" />
+        </div>
+
+        <hr />
+
+        <div class="note">
+            <strong>💡 如有任何疑问</strong>（比如网站没有证书，网站访问不了等）请加 QQ <strong>1175683760</strong>。
+        </div>
+    </div>
+</body>
+</html>
