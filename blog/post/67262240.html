@@ -2,10 +2,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>网站部署教程（进阶版）</title>
     <style>
-        /* 全局重置 & 排版 */
+        /* ===== 原有样式 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -29,7 +29,6 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
         }
 
-        /* 标题 */
         h1 {
             font-size: 2.2rem;
             font-weight: 700;
@@ -82,7 +81,6 @@
             border-bottom-color: #1d4ed8;
         }
 
-        /* 有序列表 & 无序列表 */
         ol,
         ul {
             padding-left: 1.6rem;
@@ -99,7 +97,6 @@
             margin-bottom: 0.2rem;
         }
 
-        /* 引用块 / 提示 */
         .note {
             background: #f1f5f9;
             padding: 0.8rem 1.2rem;
@@ -113,7 +110,6 @@
             color: #0f172a;
         }
 
-        /* 图片 */
         .image-grid {
             display: flex;
             flex-direction: column;
@@ -130,6 +126,7 @@
             background: #fafcff;
             display: block;
             transition: box-shadow 0.2s;
+            cursor: zoom-in;
         }
 
         .image-grid img:hover {
@@ -151,13 +148,13 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
             background: #fafcff;
             transition: box-shadow 0.2s;
+            cursor: zoom-in;
         }
 
         .image-row img:hover {
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
         }
 
-        /* 代码 / 内联命令 */
         code {
             font-family: 'JetBrains Mono', 'Fira Code', monospace;
             background: #eef2f6;
@@ -197,7 +194,6 @@
             color: #b45309;
         }
 
-        /* 步骤卡片 */
         .step-card {
             background: #fafcff;
             border-radius: 16px;
@@ -214,7 +210,6 @@
             margin-bottom: 0.6rem;
         }
 
-        /* 响应式 */
         @media (max-width: 640px) {
             .container {
                 padding: 1.5rem 1.2rem;
@@ -240,7 +235,6 @@
             }
         }
 
-        /* 一些小修整 */
         hr {
             border: none;
             border-top: 2px dashed #dce2ea;
@@ -258,6 +252,108 @@
 
         .footer-note a {
             font-weight: 500;
+        }
+
+        /* ===== 预览模态框 ===== */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            cursor: zoom-out;
+            backdrop-filter: blur(4px);
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+        }
+
+        .lightbox-container {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transform: scale(1) translate(0px, 0px);
+            transition: transform 0.1s ease-out;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        .lightbox-img:active {
+            cursor: grabbing;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 300;
+            line-height: 1;
+            transition: transform 0.2s;
+            z-index: 10;
+            background: rgba(0,0,0,0.3);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            backdrop-filter: blur(2px);
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .lightbox-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            background: rgba(0,0,0,0.3);
+            padding: 6px 18px;
+            border-radius: 30px;
+            backdrop-filter: blur(2px);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 640px) {
+            .lightbox-close {
+                top: 15px;
+                right: 20px;
+                width: 44px;
+                height: 44px;
+                font-size: 32px;
+            }
+            .lightbox-hint {
+                font-size: 12px;
+                padding: 4px 14px;
+                bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -436,5 +532,227 @@
             <strong>💡 如有任何疑问</strong>（比如网站没有证书，网站访问不了等）请加 QQ <strong>1175683760</strong>。
         </div>
     </div>
+
+    <!-- ===== 图片预览模态框 ===== -->
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <div class="lightbox-container">
+            <img class="lightbox-img" id="lightboxImg" src="" alt="预览" />
+        </div>
+        <div class="lightbox-close" id="lightboxClose">✕</div>
+        <div class="lightbox-hint">滚轮缩放 · 拖拽移动 · 点击空白关闭</div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // DOM 元素
+            const overlay = document.getElementById('lightboxOverlay');
+            const img = document.getElementById('lightboxImg');
+            const closeBtn = document.getElementById('lightboxClose');
+
+            // 缩放与平移状态
+            let currentScale = 1;
+            let translateX = 0;
+            let translateY = 0;
+            const MIN_SCALE = 0.5;
+            const MAX_SCALE = 5;
+
+            // 拖动状态（鼠标）
+            let isDragging = false;
+            let startMouseX = 0, startMouseY = 0;
+            let startTranslateX = 0, startTranslateY = 0;
+
+            // 触摸缩放状态
+            let lastTouchDist = 0;
+            let startScale = 1;
+
+            // 触摸拖动状态
+            let isTouchDragging = false;
+            let startTouchX = 0, startTouchY = 0;
+            let startTouchTranslateX = 0, startTouchTranslateY = 0;
+
+            // 更新 transform
+            function updateTransform() {
+                img.style.transform = 'scale(' + currentScale + ') translate(' + translateX + 'px, ' + translateY + 'px)';
+            }
+
+            // 重置缩放与平移
+            function resetTransform() {
+                currentScale = 1;
+                translateX = 0;
+                translateY = 0;
+                updateTransform();
+            }
+
+            // 应用缩放（带边界），若缩放到 1 则自动回正
+            function applyScale(newScale) {
+                const clamped = Math.min(Math.max(newScale, MIN_SCALE), MAX_SCALE);
+                currentScale = clamped;
+                // 如果缩放回到 1，平移归零以居中
+                if (currentScale <= 1) {
+                    translateX = 0;
+                    translateY = 0;
+                }
+                updateTransform();
+            }
+
+            // 打开预览
+            function openLightbox(src) {
+                img.src = src;
+                resetTransform();
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // 关闭预览
+            function closeLightbox() {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                img.src = '';
+                // 重置状态
+                isDragging = false;
+                isTouchDragging = false;
+            }
+
+            // ---------- 点击图片触发 ----------
+            document.querySelectorAll('.image-grid img, .image-row img').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const src = this.getAttribute('src');
+                    if (src) openLightbox(src);
+                });
+            });
+
+            // ---------- 关闭方式：仅点击背景（空白）或 X 按钮 ----------
+            overlay.addEventListener('click', function(e) {
+                // 只有点击到 overlay 本身（即黑色背景）才关闭，点击图片不关闭
+                if (e.target === overlay) {
+                    closeLightbox();
+                }
+            });
+
+            closeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeLightbox();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+
+            // ---------- 鼠标滚轮缩放 (电脑) ----------
+            overlay.addEventListener('wheel', function(e) {
+                if (!overlay.classList.contains('active')) return;
+                e.preventDefault();
+                e.stopPropagation();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                applyScale(currentScale + delta);
+            }, { passive: false });
+
+            // ---------- 鼠标拖拽 (电脑) ----------
+            img.addEventListener('mousedown', function(e) {
+                if (!overlay.classList.contains('active')) return;
+                // 只有放大时才允许拖拽
+                if (currentScale <= 1) return;
+                isDragging = true;
+                startMouseX = e.clientX;
+                startMouseY = e.clientY;
+                startTranslateX = translateX;
+                startTranslateY = translateY;
+                img.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                const dx = e.clientX - startMouseX;
+                const dy = e.clientY - startMouseY;
+                translateX = startTranslateX + dx;
+                translateY = startTranslateY + dy;
+                updateTransform();
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    img.style.cursor = 'grab';
+                }
+            });
+
+            // ---------- 触摸事件 (手机) ----------
+            overlay.addEventListener('touchstart', function(e) {
+                if (!overlay.classList.contains('active')) return;
+
+                const touches = e.touches;
+
+                // 双指缩放
+                if (touches.length === 2) {
+                    const t1 = touches[0];
+                    const t2 = touches[1];
+                    lastTouchDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+                    startScale = currentScale;
+                    isTouchDragging = false; // 双指优先，取消单指拖动
+                    return;
+                }
+
+                // 单指拖动（仅当放大时）
+                if (touches.length === 1 && currentScale > 1) {
+                    const t = touches[0];
+                    isTouchDragging = true;
+                    startTouchX = t.clientX;
+                    startTouchY = t.clientY;
+                    startTouchTranslateX = translateX;
+                    startTouchTranslateY = translateY;
+                }
+            }, { passive: true });
+
+            overlay.addEventListener('touchmove', function(e) {
+                if (!overlay.classList.contains('active')) return;
+                const touches = e.touches;
+
+                // 双指缩放
+                if (touches.length === 2) {
+                    e.preventDefault();
+                    const t1 = touches[0];
+                    const t2 = touches[1];
+                    const dist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+                    if (lastTouchDist > 0) {
+                        const scaleFactor = dist / lastTouchDist;
+                        const newScale = startScale * scaleFactor;
+                        applyScale(newScale);
+                    }
+                    return;
+                }
+
+                // 单指拖动
+                if (touches.length === 1 && isTouchDragging && currentScale > 1) {
+                    e.preventDefault();
+                    const t = touches[0];
+                    const dx = t.clientX - startTouchX;
+                    const dy = t.clientY - startTouchY;
+                    translateX = startTouchTranslateX + dx;
+                    translateY = startTouchTranslateY + dy;
+                    updateTransform();
+                }
+            }, { passive: false });
+
+            overlay.addEventListener('touchend', function(e) {
+                // 重置触摸状态
+                lastTouchDist = 0;
+                startScale = currentScale;
+                isTouchDragging = false;
+            }, { passive: true });
+
+            // 阻止浏览器默认双指手势
+            img.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+            }, { passive: false });
+
+        })();
+    </script>
+
 </body>
 </html>
