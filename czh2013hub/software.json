@@ -1,1 +1,10 @@
-1
+[
+  {
+    "name": "CZH2013 工具箱",
+    "downloadurl": "https://czh2013.dpdns.org/download/tool.zip",
+    "ver": "1.2.0",
+    "iconurl": "https://czh2013.dpdns.org/icons/tool.png",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb924",
+    "website": "https://czh2013.dpdns.org"
+  }
+]
